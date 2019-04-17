@@ -22,21 +22,23 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 0.10.33
+ENV NODE_VERSION 10.15.1
 
 # Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash \
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
     && nvm use default
 
 RUN source /root/.bashrc
-#RUN /usr/local/nvm/v$NODE_VERSION/bin/npm install -g eslint
-#RUN /usr/local/nvm/v$NODE_VERSION/bin/npm install -g eslint-config-airbnb
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# TODO: add npm proxy if relevant
+RUN npm install -g eslint
+RUN npm install -g eslint-config-airbnb
 
 RUN add-apt-repository ppa:jonathonf/vim -y
 RUN apt update
