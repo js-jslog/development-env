@@ -1,9 +1,9 @@
 FROM ubuntu:xenial
 
 ARG http_proxy=$http_proxy
-ARG https_proxy=$http_proxy
-ARG HTTP_PROXY=$http_proxy
-ARG HTTPS_PROXY=$http_proxy
+ARG https_proxy=$https_proxy
+ARG HTTP_PROXY=$HTTP_PROXY
+ARG HTTPS_PROXY=$HTTPS_PROXY
 ENV TERM=xterm-256color
 
 # Replace shell with bash so we can source files
@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         wget \
         git \
         software-properties-common \
+        ssh \
     && rm -rf /var/lib/apt/lists/*
 
 ENV NVM_DIR /usr/local/nvm
