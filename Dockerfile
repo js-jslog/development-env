@@ -1,5 +1,9 @@
 FROM ubuntu:xenial
 
+ARG http_proxy=$http_proxy
+ARG https_proxy=$http_proxy
+ARG HTTP_PROXY=$http_proxy
+ARG HTTPS_PROXY=$http_proxy
 ENV TERM=xterm-256color
 
 # Replace shell with bash so we can source files
@@ -36,7 +40,8 @@ RUN source /root/.bashrc
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-# TODO: add npm proxy if relevant
+RUN npm set proxy $http_proxy
+RUN npm set https-proxy $http_proxy
 RUN npm install -g eslint
 RUN npm install -g eslint-config-airbnb
 
