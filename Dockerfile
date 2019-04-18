@@ -45,14 +45,15 @@ RUN npm install -g eslint
 RUN npm install -g eslint-config-airbnb-base
 RUN npm install -g eslint-plugin-import
 
-RUN add-apt-repository ppa:jonathonf/vim -y
-RUN apt update
-RUN apt install vim -y
+RUN add-apt-repository ppa:jonathonf/vim -y \
+    && apt update \
+    && apt install vim -y
 
 COPY dotfiles/.vimrc /root/.vimrc
+COPY dotfiles/.gitconfig /root/.gitconfig
 COPY dotfiles/.bash_aliases /root/.bash_aliases
 
-RUN rm -r /root/.vim || true
-RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-RUN vim +PlugInstall +qall
+RUN rm -r /root/.vim || true \
+    && curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+    && vim +PlugInstall +qall
