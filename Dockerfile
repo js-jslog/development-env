@@ -40,10 +40,9 @@ RUN source /root/.bashrc
 ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-RUN npm set proxy $http_proxy
-RUN npm set https-proxy $http_proxy
 RUN npm install -g eslint
-RUN npm install -g eslint-config-airbnb
+RUN npm install -g eslint-config-airbnb-base
+RUN npm install -g eslint-plugin-import
 
 RUN add-apt-repository ppa:jonathonf/vim -y
 RUN apt update
