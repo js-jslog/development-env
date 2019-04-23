@@ -6,6 +6,10 @@ ARG HTTP_PROXY=$HTTP_PROXY
 ARG HTTPS_PROXY=$HTTPS_PROXY
 ENV TERM=xterm-256color
 
+LABEL version "1.0"
+LABEL maintainer "Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
+LABEL runcommand "docker run --rm -ti -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env"
+
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
