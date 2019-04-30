@@ -71,4 +71,10 @@ RUN npm install -g eslint \
  && npm install -g eslint-plugin-import \
  && npm install -g jest
 
-LABEL version="1.1.1"
+# Copy project templates
+COPY templates/tdd/ /home/developer/templates/tdd/
+COPY dotfiles/jest.config.js /home/developer/templates/tdd/.
+COPY dotfiles/.gitignore /home/developer/templates/tdd/.
+COPY dotfiles/.eslintrc.json /home/developer/templates/tdd/.
+
+LABEL version="1.1.2"
