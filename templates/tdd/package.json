@@ -1,0 +1,17 @@
+{
+  "name": "tdd-template",
+  "version": "1.0.0",
+  "description": "A template to begin a simple tdd experiment",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "js-jslog <jhs4jbs@hotmail.co.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "jest": "^24.7.1"
+  }
+}
