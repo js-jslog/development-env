@@ -78,4 +78,8 @@ COPY dotfiles/jest.config.js /home/developer/templates/tdd/.
 COPY dotfiles/.gitignore /home/developer/templates/tdd/.
 COPY dotfiles/.eslintrc.json /home/developer/templates/tdd/.
 
+COPY templates/express-app/ /home/developer/templates/express-app/
+COPY dotfiles/.gitignore /home/developer/templates/express-app/.
+COPY dotfiles/.eslintrc.json /home/developer/templates/express-app/.
+
 LABEL version="1.1.3"
