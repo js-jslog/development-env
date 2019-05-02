@@ -17,17 +17,11 @@ ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 #   at container creation time
 RUN mkdir -p /home/developer/
 
-COPY dotfiles/.vimrc /root/.vimrc
-COPY dotfiles/.gitconfig /root/.gitconfig
-COPY dotfiles/.bash_aliases /root/.bash_aliases
-COPY dotfiles/.eslintrc.json /root/.eslintrc.json
-COPY dotfiles/jest.config.js /home/developer/jest.config.js
+# Replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 LABEL runcommand="docker run --rm -ti -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env"
-
-# Replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Set debconf to run non-interactively
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -47,6 +41,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install vim and customise
+COPY dotfiles/.vimrc /root/.vimrc
 RUN add-apt-repository ppa:jonathonf/vim -y \
  && apt update \
  && apt install vim -y
@@ -63,18 +58,24 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh
  && nvm alias default $NODE_VERSION \
  && nvm use default
 
-RUN source /root/.bashrc
-
 # Install npm packages
+RUN source /root/.bashrc
 RUN npm install -g eslint \
  && npm install -g eslint-config-airbnb-base \
  && npm install -g eslint-plugin-import \
  && npm install -g jest
 
-# Copy project templates
+# Copy global dotfiles
+COPY dotfiles/.gitconfig /root/.gitconfig
+COPY dotfiles/.bash_aliases /root/.bash_aliases
+COPY dotfiles/.eslintrc.json /root/.eslintrc.json
+COPY dotfiles/jest.config.js /home/developer/jest.config.js
+RUN source /root/.bashrc
+
+# Copy project templates with local dotfiles
 COPY templates/tdd/ /home/developer/templates/tdd/
 COPY dotfiles/jest.config.js /home/developer/templates/tdd/.
 COPY dotfiles/.gitignore /home/developer/templates/tdd/.
 COPY dotfiles/.eslintrc.json /home/developer/templates/tdd/.
 
-LABEL version="1.1.2"
+LABEL version="1.1.3"
