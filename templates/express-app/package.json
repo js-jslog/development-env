@@ -1,0 +1,14 @@
+{
+  "name": "express-app-template",
+  "version": "1.0.0",
+  "description": "A template to begin a simple express app experiment",
+  "main": "index.js",
+  "author": "js-jslog <jhs4jbs@hotmail.co.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "express": "^4.16.4"
+  }
+}
