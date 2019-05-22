@@ -21,7 +21,7 @@ RUN mkdir -p /home/developer/
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
-LABEL runcommand="docker run --rm -ti -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env"
+LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock-p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env"
 
 # Set debconf to run non-interactively
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -71,6 +71,22 @@ COPY dotfiles/.bash_aliases /root/.bash_aliases
 COPY dotfiles/.eslintrc.json /root/.eslintrc.json
 COPY dotfiles/jest.config.js /home/developer/jest.config.js
 RUN source /root/.bashrc
+
+# Install docker ce so that host docker instances can be manipulated from this env
+RUN apt-get update && apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+RUN apt-get update && apt-get install docker-ce docker-ce-cli containerd.io
 
 # Copy project templates with local dotfiles
 COPY templates/tdd/ /home/developer/templates/tdd/
