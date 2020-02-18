@@ -66,7 +66,10 @@ RUN source /root/.bashrc
 RUN npm install -g eslint \
  && npm install -g eslint-config-airbnb-base \
  && npm install -g eslint-plugin-import \
- && npm install -g jest
+ && npm install -g jest \
+ && npm install -g rxjs \
+ && npm install -g typescript \
+ && npm install -g http-server
 
 # Copy global dotfiles
 COPY dotfiles/.gitconfig /root/.gitconfig
