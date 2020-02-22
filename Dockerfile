@@ -107,4 +107,8 @@ COPY templates/express-app/ /home/developer/templates/express-app/
 COPY dotfiles/.gitignore /home/developer/templates/express-app/.
 COPY dotfiles/.eslintrc.json /home/developer/templates/express-app/.
 
-LABEL version="1.1.4"
+COPY templates/webpack-es6/ /home/developer/templates/webpack-es6/
+COPY dotfiles/.gitignore /home/developer/templates/webpack-es6/.
+COPY dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
+
+LABEL version="1.1.5"
