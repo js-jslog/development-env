@@ -111,4 +111,4 @@ COPY templates/webpack-es6/ /home/developer/templates/webpack-es6/
 COPY dotfiles/.gitignore /home/developer/templates/webpack-es6/.
 COPY dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
-LABEL version="1.1.6"
+LABEL version="1.1.7"
