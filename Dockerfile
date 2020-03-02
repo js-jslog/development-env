@@ -6,16 +6,7 @@ ARG HTTP_PROXY=$HTTP_PROXY
 ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
-ENV NVM_DIR=/usr/local/nvm
 ENV NODE_VERSION=10.15.1
-ENV NODE_PATH=$NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
-ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-# Create a developer folder in the home directory
-# TODO: actually create a user with a home folder
-# - need to investigate how to change UID and GID
-#   at container creation time
-RUN mkdir -p /home/developer/
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -43,41 +34,6 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         postgresql postgresql-contrib \
     && rm -rf /var/lib/apt/lists/*
 
-# Install vim and customise
-COPY dotfiles/.vimrc /root/.vimrc
-RUN add-apt-repository ppa:jonathonf/vim -y \
- && apt update \
- && apt install vim -y
-
-RUN rm -r /root/.vim || true \
- && curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && vim +PlugInstall +qall
-
-# Install nvm with node and npm
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash \
- && . $NVM_DIR/nvm.sh \
- && nvm install $NODE_VERSION \
- && nvm alias default $NODE_VERSION \
- && nvm use default
-
-# Install npm packages
-RUN source /root/.bashrc
-RUN npm install -g eslint \
- && npm install -g eslint-config-airbnb-base \
- && npm install -g eslint-plugin-import \
- && npm install -g jest \
- && npm install -g rxjs \
- && npm install -g typescript \
- && npm install -g http-server
-
-# Copy global dotfiles
-COPY dotfiles/.gitconfig /root/.gitconfig
-COPY dotfiles/.bash_aliases /root/.bash_aliases
-COPY dotfiles/.eslintrc.json /root/.eslintrc.json
-COPY dotfiles/jest.config.js /home/developer/jest.config.js
-RUN source /root/.bashrc
-
 # Install docker ce so that host docker instances can be manipulated from this env
 RUN apt-get update && apt-get install -y -q --no-install-recommends \
     apt-transport-https \
@@ -97,18 +53,66 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     docker-ce-cli \
     containerd.io
 
+# Install vim 8
+RUN add-apt-repository ppa:jonathonf/vim -y \
+ && apt update \
+ && apt install vim -y
+
+# Create developer user under which all development within the container
+# will be performed
+RUN useradd --create-home --shell /bin/bash developer
+USER developer
+
+# Install users vim customisations. This requires that the .vimrc
+# file is copied much earlier than the other dotfiles
+COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.vimrc
+RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+ && vim +PlugInstall +qall
+
+# Install nvm with node and npm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash \
+ && . /home/developer/.nvm/nvm.sh \
+ && nvm install $NODE_VERSION \
+ && nvm alias default $NODE_VERSION \
+ && nvm use default
+RUN source ~/.bashrc
+
+# Have to manually include the node folder on the path to make
+# the following installs possible.
+# It gets set automatically by the time we start the container,
+# but for some reason it's not ready at this point.
+ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+
+# Install npm packages
+RUN npm install -g eslint \
+ && npm install -g eslint-config-airbnb-base \
+ && npm install -g eslint-plugin-import \
+ && npm install -g yo \
+ && npm install -g jest \
+ && npm install -g rxjs \
+ && npm install -g typescript \
+ && npm install -g http-server
+
+# Copy global dotfiles
+COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/bash_aliases
+COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/eslintrc.json
+COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/jest.config.js
+RUN source ~/.bashrc
+
 # Copy project templates with local dotfiles
-COPY templates/tdd/ /home/developer/templates/tdd/
-COPY dotfiles/jest.config.js /home/developer/templates/tdd/.
-COPY dotfiles/.gitignore /home/developer/templates/tdd/.
-COPY dotfiles/.eslintrc.json /home/developer/templates/tdd/.
+COPY --chown=developer:developer templates/tdd/ /home/developer/templates/tdd/
+COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/templates/tdd/.
+COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/tdd/.
+COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/tdd/.
 
-COPY templates/express-app/ /home/developer/templates/express-app/
-COPY dotfiles/.gitignore /home/developer/templates/express-app/.
-COPY dotfiles/.eslintrc.json /home/developer/templates/express-app/.
+COPY --chown=developer:developer templates/express-app/ /home/developer/templates/express-app/
+COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/express-app/.
+COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/express-app/.
 
-COPY templates/webpack-es6/ /home/developer/templates/webpack-es6/
-COPY dotfiles/.gitignore /home/developer/templates/webpack-es6/.
-COPY dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
+COPY --chown=developer:developer templates/webpack-es6/ /home/developer/templates/webpack-es6/
+COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/webpack-es6/.
+COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
-LABEL version="1.1.7"
+LABEL version="2.1.1"
