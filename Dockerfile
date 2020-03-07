@@ -12,7 +12,6 @@ ENV NODE_VERSION=10.15.1
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
-LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env"
 
 # Set debconf to run non-interactively
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -63,7 +62,7 @@ RUN add-apt-repository ppa:jonathonf/vim -y \
 # will be performed
 RUN groupadd --gid 1000 developer
 RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
-RUN usermod --append --groups sudo developer && echo "developer:developer" | chpasswd
+RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 USER developer
 
 # Install users vim customisations. This requires that the .vimrc
@@ -118,4 +117,7 @@ COPY --chown=developer:developer templates/webpack-es6/ /home/developer/template
 COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/webpack-es6/.
 COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
-LABEL version="2.2.1"
+
+ARG SEMVER="2.2.1"
+LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
+LABEL version=$SEMVER
