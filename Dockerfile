@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         mysql-client \
         python \
         postgresql postgresql-contrib \
+        sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # Install docker ce so that host docker instances can be manipulated from this env
@@ -60,7 +61,9 @@ RUN add-apt-repository ppa:jonathonf/vim -y \
 
 # Create developer user under which all development within the container
 # will be performed
-RUN useradd --create-home --shell /bin/bash developer
+RUN groupadd --gid 1000 developer
+RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
+RUN usermod --append --groups sudo developer && echo "developer:developer" | chpasswd
 USER developer
 
 # Install users vim customisations. This requires that the .vimrc
@@ -115,4 +118,4 @@ COPY --chown=developer:developer templates/webpack-es6/ /home/developer/template
 COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/webpack-es6/.
 COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
-LABEL version="2.1.1"
+LABEL version="2.1.2"
