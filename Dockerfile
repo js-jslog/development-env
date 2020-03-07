@@ -118,4 +118,4 @@ COPY --chown=developer:developer templates/webpack-es6/ /home/developer/template
 COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/webpack-es6/.
 COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
-LABEL version="2.1.2"
+LABEL version="2.2.1"
