@@ -1,3 +1,7 @@
 [submodule "dotfiles"]
 	path = dotfiles
 	url = git@github.com:js-jslog/dotfiles.git
+[submodule "yeoman-generators/generator-tdd"]
+	path = yeoman-generators/generator-tdd
+	url = git@github.com:js-jslog/generator-tdd.git
+	branch = master
