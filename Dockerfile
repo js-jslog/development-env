@@ -104,11 +104,6 @@ COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/jest.co
 RUN source ~/.bashrc
 
 # Copy project templates with local dotfiles
-COPY --chown=developer:developer templates/tdd/ /home/developer/templates/tdd/
-COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/templates/tdd/.
-COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/tdd/.
-COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/tdd/.
-
 COPY --chown=developer:developer templates/express-app/ /home/developer/templates/express-app/
 COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/express-app/.
 COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/express-app/.
@@ -117,6 +112,11 @@ COPY --chown=developer:developer templates/webpack-es6/ /home/developer/template
 COPY --chown=developer:developer dotfiles/.gitignore /home/developer/templates/webpack-es6/.
 COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/templates/webpack-es6/.
 
+# Prepare Yeoman Generators folders
+COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
+
+# npm link the Yeoman Generators so that they can be used as though a global module
+RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 
 ARG SEMVER="2.2.1"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
