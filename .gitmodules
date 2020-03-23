@@ -5,3 +5,11 @@
 	path = yeoman-generators/generator-tdd
 	url = git@github.com:js-jslog/generator-tdd.git
 	branch = master
+[submodule "yeoman-generators/generator-webpack"]
+	path = yeoman-generators/generator-webpack
+	url = git@github.com:js-jslog/generator-webpack.git
+	branch = master
+[submodule "yeoman-generators/generator-express"]
+	path = yeoman-generators/generator-express
+	url = git@github.com:js-jslog/generator-express-app.git
+	branch = master
