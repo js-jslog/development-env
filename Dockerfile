@@ -107,6 +107,7 @@ RUN source ~/.bashrc
 COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
 
 # npm link the Yeoman Generators so that they can be used as though a global module
+RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
 RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
 RUN cd /home/developer/yeoman-generators/generator-express && npm link

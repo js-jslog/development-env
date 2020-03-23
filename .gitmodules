@@ -13,3 +13,7 @@
 	path = yeoman-generators/generator-express
 	url = git@github.com:js-jslog/generator-express-app.git
 	branch = master
+[submodule "yeoman-generators/generator-dotfiles"]
+	path = yeoman-generators/generator-dotfiles
+	url = git@github.com:js-jslog/generator-dotfiles.git
+	branch = master
