@@ -31,6 +31,9 @@ See the instructions in the link above to configure the daemon to run with this 
 ## Motivation
 The purpose of creating a non-root user is not for security reasons. This is why I encourage the mapping of `youruser:0:...`. The purpose is becuase many applications don't run properly under root.
 
+# Yeoman Generators
+Several Yeoman Generators have been published within the image as global npm packages and can be used with the usual `yo ...` syntax. See the projects within `yeoman-generators` for details.
+
 # Usage
 ## Clone
 ```
