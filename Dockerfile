@@ -60,8 +60,9 @@ RUN add-apt-repository ppa:jonathonf/vim -y \
 
 # Create developer user under which all development within the container
 # will be performed
-RUN groupadd --gid 1000 developer
-RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
+# Temporarily set to 1004 & 1003 for office use while userns-remap doesn't work in vm
+RUN groupadd --gid 1004 developer
+RUN useradd --create-home --shell /bin/bash --uid 1004 --gid 1003 developer
 RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 USER developer
 
