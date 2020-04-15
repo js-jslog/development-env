@@ -6,7 +6,7 @@ ARG HTTP_PROXY=$HTTP_PROXY
 ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
-ENV NODE_VERSION=10.15.1
+ENV NODE_VERSION=12.16.2
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
