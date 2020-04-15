@@ -87,20 +87,12 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
-RUN npm install -g eslint \
- && npm install -g eslint-config-airbnb-base \
- && npm install -g eslint-plugin-import \
- && npm install -g yo \
- && npm install -g jest \
- && npm install -g rxjs \
- && npm install -g typescript \
- && npm install -g http-server
+RUN npm install -g yarn \
+ && npm install -g yo
 
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/bash_aliases
-COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/eslintrc.json
-COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/jest.config.js
 RUN source ~/.bashrc
 
 # Prepare Yeoman Generators folders
