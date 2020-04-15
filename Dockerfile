@@ -92,7 +92,7 @@ RUN npm install -g yarn \
 
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/bash_aliases
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 RUN source ~/.bashrc
 
 # Prepare Yeoman Generators folders
