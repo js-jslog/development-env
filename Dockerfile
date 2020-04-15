@@ -6,7 +6,7 @@ ARG HTTP_PROXY=$HTTP_PROXY
 ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
-ENV NODE_VERSION=10.15.1
+ENV NODE_VERSION=12.16.2
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -87,20 +87,12 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
-RUN npm install -g eslint \
- && npm install -g eslint-config-airbnb-base \
- && npm install -g eslint-plugin-import \
- && npm install -g yo \
- && npm install -g jest \
- && npm install -g rxjs \
- && npm install -g typescript \
- && npm install -g http-server
+RUN npm install -g yarn \
+ && npm install -g yo
 
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/bash_aliases
-COPY --chown=developer:developer dotfiles/.eslintrc.json /home/developer/eslintrc.json
-COPY --chown=developer:developer dotfiles/jest.config.js /home/developer/jest.config.js
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 RUN source ~/.bashrc
 
 # Prepare Yeoman Generators folders
@@ -112,6 +104,6 @@ RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
 RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
-ARG SEMVER="3.3.0"
+ARG SEMVER="4.0.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
 LABEL version=$SEMVER
