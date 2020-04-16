@@ -2,17 +2,17 @@
 - None; simply pull latest tag from docker hub.
 
 # Breaking Changes
-- Many global npm packages have been removed. Only yo remains of the original set.
+- None
 
 # New Features
-- yarn has been added as a global npm module.
+- Typescript highlighting in vim
 
 # Bug Fixes
-- .bash_aliases has been renamed correctly from bash_aliases.
+- None
 
 # Improvements
-- Node (as managed by nvm) is installed at 12.16.2 by default (lts at time of writing).
+- None
 
 # Other Changes
-- N/A
+- None
 -
