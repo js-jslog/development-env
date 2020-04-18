@@ -5,7 +5,7 @@
 - None
 
 # New Features
-- Typescript highlighting in vim
+- JSX Typescript highlighting in vim
 
 # Bug Fixes
 - None
