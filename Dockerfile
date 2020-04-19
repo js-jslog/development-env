@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         libssl-dev \
         wget \
         git \
+        tmux \
         software-properties-common \
         ssh \
         mysql-client \
@@ -93,6 +94,7 @@ RUN npm install -g yarn \
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 RUN source ~/.bashrc
 
 # Prepare Yeoman Generators folders
