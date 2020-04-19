@@ -2,17 +2,13 @@
 - None; simply pull latest tag from docker hub.
 
 # Breaking Changes
-- None
 
 # New Features
-- JSX Typescript highlighting in vim
+- tmux
 
 # Bug Fixes
-- None
 
 # Improvements
-- None
 
 # Other Changes
-- None
--
+- Remove duplicate install of git. This had no impact but is untidy in the Dockerfile.

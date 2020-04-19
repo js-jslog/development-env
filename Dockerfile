@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         git \
         libssl-dev \
         wget \
-        git \
+        tmux \
         software-properties-common \
         ssh \
         mysql-client \
@@ -94,6 +94,7 @@ RUN npm install -g yarn \
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 RUN source ~/.bashrc
 
 # Prepare Yeoman Generators folders
@@ -105,6 +106,6 @@ RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
 RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
-ARG SEMVER="4.2.0"
+ARG SEMVER="4.3.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:office_latest"
 LABEL version=$SEMVER
