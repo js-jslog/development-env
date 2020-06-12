@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:focal
 
 ARG http_proxy=$http_proxy
 ARG https_proxy=$https_proxy
@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         python \
         postgresql postgresql-contrib \
         sudo \
+        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install docker ce so that host docker instances can be manipulated from this env
@@ -54,9 +55,22 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     containerd.io
 
 # Install vim 8
-RUN add-apt-repository ppa:jonathonf/vim -y \
- && apt update \
- && apt install vim -y
+#RUN add-apt-repository ppa:jonathonf/vim -y \
+# && apt update \
+# && apt install vim -y
+
+#RUN curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+#RUN chmod u+x nvim.appimage
+#RUN ./nvim.appimage --appimage-extract
+#RUN ls
+RUN ln -fs python3 /usr/bin/python
+RUN wget --quiet https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage --output-document nvim
+RUN chmod +x nvim
+RUN chown root:root nvim
+RUN mv nvim /usr/bin
+RUN nvim --appimage-extract
+RUN rm /usr/bin/nvim
+RUN mv /squashfs-root/usr/bin/nvim /usr/bin
 
 # Create developer user under which all development within the container
 # will be performed
@@ -65,46 +79,61 @@ RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
 RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 USER developer
 
+RUN pip3 install --user pynvim
+RUN pip3 install --user neovim
+RUN pip3 install msgpack
+
 # Install users vim customisations. This requires that the .vimrc
 # file is copied much earlier than the other dotfiles
 COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.vimrc
-RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && vim +PlugInstall +qall
 
-# Install nvm with node and npm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash \
- && . /home/developer/.nvm/nvm.sh \
- && nvm install $NODE_VERSION \
- && nvm alias default $NODE_VERSION \
- && nvm use default
-RUN source ~/.bashrc
+RUN mkdir -p /home/developer/.config/nvim
+COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.config/nvim/init.vim
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN nvim +PlugInstall +qall
+#
+#
+##RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+##    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+## && vim +PlugInstall +qall \
+## && /squashfs-root/usr/bin/nvim +PlugInstall +qall
+#
+## Install nvm with node and npm
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash \
+# && . /home/developer/.nvm/nvm.sh \
+# && nvm install $NODE_VERSION \
+# && nvm alias default $NODE_VERSION \
+# && nvm use default
+#RUN source ~/.bashrc
+#
+## Have to manually include the node folder on the path to make
+## the following installs possible.
+## It gets set automatically by the time we start the container,
+## but for some reason it's not ready at this point.
+#ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+#
+## Install npm packages
+#RUN npm install -g yarn \
+# && npm install -g neovim \
+# && npm install -g typescript # useful for using nvim-typescript service plugin on projects where the local deps haven't been installed yet
+## && npm install -g yo 
+## #&& npm install -g expo-cli
+##
+### Copy global dotfiles
+##COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
+##COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+##COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
+##RUN source ~/.bashrc
+##
+### Prepare Yeoman Generators folders
+##COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
+##
+### npm link the Yeoman Generators so that they can be used as though a global module
+##RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
+##RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
+##RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
+##RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
-# Have to manually include the node folder on the path to make
-# the following installs possible.
-# It gets set automatically by the time we start the container,
-# but for some reason it's not ready at this point.
-ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-
-# Install npm packages
-RUN npm install -g yarn \
- && npm install -g yo
-
-# Copy global dotfiles
-COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
-COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-RUN source ~/.bashrc
-
-# Prepare Yeoman Generators folders
-COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
-
-# npm link the Yeoman Generators so that they can be used as though a global module
-RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
-RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
-RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
-RUN cd /home/developer/yeoman-generators/generator-express && npm link
-
-ARG SEMVER="4.3.0"
+ARG SEMVER="5.0.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
 LABEL version=$SEMVER
