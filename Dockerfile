@@ -86,9 +86,9 @@ ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 # neovim required for nvim-typescript neovim plugin
 # typescript optional for nvim-typescrip neovim plugin
 RUN npm install -g yarn \
+ && npm install -g yo \
  && npm install -g neovim \
  && npm install -g typescript
-## && npm install -g yo 
 ## #&& npm install -g expo-cli
 
 
@@ -108,20 +108,20 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://r
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
 
-### Copy global dotfiles
-##COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-##COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
-##COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-##RUN source ~/.bashrc
-##
-### Prepare Yeoman Generators folders
-##COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
-##
-### npm link the Yeoman Generators so that they can be used as though a global module
-##RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
-##RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
-##RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
-##RUN cd /home/developer/yeoman-generators/generator-express && npm link
+# Copy global dotfiles
+COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
+RUN source ~/.bashrc
+
+# Prepare Yeoman Generators folders
+COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
+
+# npm link the Yeoman Generators so that they can be used as though a global module
+RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
+RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
+RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
+RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
 ARG SEMVER="5.0.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
