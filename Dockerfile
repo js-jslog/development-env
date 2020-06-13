@@ -63,9 +63,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
 
 # Create developer user under which all development within the container
 # will be performed
-RUN groupadd --gid 1000 developer
-RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
-RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
+RUN groupadd --gid 1000 developer \
+ && useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer \
+ && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 USER developer
 
 # Install nvm with node and npm
