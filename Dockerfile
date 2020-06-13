@@ -101,9 +101,9 @@ RUN pip install --user pynvim \
  && pip3 install --user neovim \
  && pip3 install msgpack
 
-# Install users vim customisations. This requires that the .vimrc
+# Install users vim customisations. This requires that the init.vim
 # file is copied earlier than the other dotfiles
-COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.config/nvim/init.vim
+COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
