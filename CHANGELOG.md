@@ -13,7 +13,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v4.3.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v5.0.0...HEAD) - yyyy-mm-dd
+## [v5.0.0](https://github.com/js-jslog/development-env/releases/tag/v5.0.0) - 2020-06-13
 ### Changed
 - MAJOR: Upgrade base image from Ubuntu 16 to 20
 - MAJOR: Replace vim with neovim
@@ -21,7 +22,11 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Added
 - MAJOR: Additional dependencies as required for desired neovim enhancements
 
+### Removed
+- MAJOR: Vim and it's dependencies not shared with neovim
+
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v4.3.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v5.0.0...HEAD)
+- [v5.0.0](https://github.com/js-jslog/development-env/releases/tag/v5.0.0)
 - [v4.3.0](https://github.com/js-jslog/development-env/releases/tag/v4.3.0)
