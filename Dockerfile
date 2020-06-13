@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:focal
 
 ARG http_proxy=$http_proxy
 ARG https_proxy=$https_proxy
@@ -32,6 +32,8 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         python \
         postgresql postgresql-contrib \
         sudo \
+        neovim \
+        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install docker ce so that host docker instances can be manipulated from this env
@@ -53,24 +55,18 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     docker-ce-cli \
     containerd.io
 
-# Install vim 8
-RUN add-apt-repository ppa:jonathonf/vim -y \
- && apt update \
- && apt install vim -y
+# Python2 neovim integration is optional for the deoplete plugin.
+# I have only included it for completeness but this and the pip
+# dependencies below can possibly be removed.
+RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
+ && python2 get-pip.py
 
 # Create developer user under which all development within the container
 # will be performed
-RUN groupadd --gid 1000 developer
-RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
-RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
+RUN groupadd --gid 1000 developer \
+ && useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer \
+ && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 USER developer
-
-# Install users vim customisations. This requires that the .vimrc
-# file is copied much earlier than the other dotfiles
-COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.vimrc
-RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && vim +PlugInstall +qall
 
 # Install nvm with node and npm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash \
@@ -87,8 +83,30 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
+# neovim required for nvim-typescript neovim plugin
+# typescript optional for nvim-typescrip neovim plugin
 RUN npm install -g yarn \
- && npm install -g yo
+ && npm install -g yo \
+ && npm install -g neovim \
+ && npm install -g typescript
+## #&& npm install -g expo-cli
+
+
+# Install deoplete and nvm-typescript
+# neovim plugin python dependencies
+RUN pip install --user pynvim \
+ && pip install --user neovim \
+ && pip install msgpack \
+ && pip3 install --user pynvim \
+ && pip3 install --user neovim \
+ && pip3 install msgpack
+
+# Install users vim customisations. This requires that the init.vim
+# file is copied earlier than the other dotfiles
+COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN nvim +PlugInstall +qall
+RUN nvim +UpdateRemotePlugins +qall
 
 # Copy global dotfiles
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
@@ -105,6 +123,6 @@ RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
 RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
-ARG SEMVER="4.3.0"
+ARG SEMVER="5.0.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:$SEMVER"
 LABEL version=$SEMVER
