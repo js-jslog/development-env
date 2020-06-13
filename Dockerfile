@@ -55,7 +55,9 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     docker-ce-cli \
     containerd.io
 
-
+# Python2 neovim integration is optional for the deoplete plugin.
+# I have only included it for completeness but this and the pip
+# dependencies below can possibly be removed.
 RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
  && python2 get-pip.py
 
@@ -81,26 +83,27 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
+# neovim required for nvim-typescript neovim plugin
+# typescript optional for nvim-typescrip neovim plugin
 RUN npm install -g yarn \
  && npm install -g neovim \
- && npm install -g typescript # useful for using nvim-typescript service plugin on projects where the local deps haven't been installed yet
+ && npm install -g typescript
 ## && npm install -g yo 
 ## #&& npm install -g expo-cli
 
+
+# Install deoplete and nvm-typescript
+# neovim plugin python dependencies
+RUN pip install --user pynvim \
+ && pip install --user neovim \
+ && pip install msgpack \
+ && pip3 install --user pynvim \
+ && pip3 install --user neovim \
+ && pip3 install msgpack
+
 # Install users vim customisations. This requires that the .vimrc
-# file is copied much earlier than the other dotfiles
-#COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.vimrc
+# file is copied earlier than the other dotfiles
 COPY --chown=developer:developer dotfiles/.vimrc /home/developer/.config/nvim/init.vim
-
-RUN pip install --user pynvim
-RUN pip install --user neovim
-RUN pip install msgpack
-
-RUN pip3 install --user pynvim
-RUN pip3 install --user neovim
-RUN pip3 install msgpack
-
-RUN mkdir -p /home/developer/.config/nvim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
