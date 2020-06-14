@@ -65,8 +65,8 @@ RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
 # will be performed
 # Temporarily set to 1004 & 1003 for office use while userns-remap doesn't work in vm
 RUN groupadd --gid 1003 developer
- && useradd --create-home --shell /bin/bash --uid 1004 --gid 1003 developer
- && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
+ && useradd --create-home --shell /bin/bash --uid 1004 --gid 1003 developer \
+ && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd \
 USER developer
 
 # Install nvm with node and npm
