@@ -83,23 +83,16 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
-# neovim required for nvim-typescript neovim plugin
-# typescript optional for nvim-typescrip neovim plugin
+# neovim required for neovim Node.js provider
 RUN npm install -g yarn \
  && npm install -g yo \
- && npm install -g neovim \
- && npm install -g typescript
+ && npm install -g neovim
 ## #&& npm install -g expo-cli
 
 
-# Install deoplete and nvm-typescript
-# neovim plugin python dependencies
+# Install Neovim python provider dependencies
 RUN pip install --user pynvim \
- && pip install --user neovim \
- && pip install msgpack \
- && pip3 install --user pynvim \
- && pip3 install --user neovim \
- && pip3 install msgpack
+ && pip3 install --user pynvim
 
 # Install users vim customisations. This requires that the init.vim
 # file is copied earlier than the other dotfiles
