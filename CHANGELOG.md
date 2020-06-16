@@ -14,6 +14,13 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v5.0.0...HEAD) - yyyy-mm-dd
+### Changed
+- MAJOR: Updated dotfiles submodule with shift from Deopolete and Nvim-Typescript to CoC with extensions. Performance and feature improvement.
+
+### Removed
+- MAJOR: Various nvim plugins which are not essential and need to be reviewed.
+- MAJOR: Various environment dependencies which were only required for the replaced deoplete and associates.
+
 ## [v5.0.0](https://github.com/js-jslog/development-env/releases/tag/v5.0.0) - 2020-06-13
 ### Changed
 - MAJOR: Upgrade base image from Ubuntu 16 to 20
