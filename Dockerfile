@@ -84,23 +84,16 @@ RUN source ~/.bashrc
 ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 # Install npm packages
-# neovim required for nvim-typescript neovim plugin
-# typescript optional for nvim-typescrip neovim plugin
+# neovim required for neovim Node.js provider
 RUN npm install -g yarn \
  && npm install -g yo \
- && npm install -g neovim \
- && npm install -g typescript
+ && npm install -g neovim
 ## #&& npm install -g expo-cli
 
 
-# Install deoplete and nvm-typescript
-# neovim plugin python dependencies
+# Install Neovim python provider dependencies
 RUN pip install --user pynvim \
- && pip install --user neovim \
- && pip install msgpack \
- && pip3 install --user pynvim \
- && pip3 install --user neovim \
- && pip3 install msgpack
+ && pip3 install --user pynvim
 
 # Install users vim customisations. This requires that the init.vim
 # file is copied earlier than the other dotfiles
@@ -124,6 +117,6 @@ RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
 RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
 RUN cd /home/developer/yeoman-generators/generator-express && npm link
 
-ARG SEMVER="5.0.0"
+ARG SEMVER="6.0.0"
 LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:office_latest"
 LABEL version=v$SEMVER
