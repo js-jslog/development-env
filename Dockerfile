@@ -41,7 +41,7 @@ RUN apk add --no-cache python2 python3 neovim py-pip \
  && npm install -g neovim
 
 
-RUN apk add --no-cache make gcc g++ libgcc
+RUN apk add --no-cache g++
 RUN apk add --no-cache python2-dev
 RUN apk add --no-cache python3-dev
 
