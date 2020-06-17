@@ -38,8 +38,7 @@ RUN npm install -g yarn \
  && npm install -g yo
 
 
-RUN apk add --no-cache gcc
-RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
+RUN apk add --no-cache make gcc g++ libgcc
 RUN apk add --no-cache python2-dev
 RUN apk add --no-cache python3-dev
 
