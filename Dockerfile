@@ -38,6 +38,8 @@ RUN cd /var/yeoman-generators/generator-tdd && npm link
 RUN apk add --no-cache python2 python3 neovim py-pip g++ python2-dev python3-dev \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
  && npm install -g neovim
+RUN pip install pynvim
+RUN pip3 install pynvim
 
 
 # Create developer user under which all development within the container
@@ -52,8 +54,6 @@ COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_al
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 
 # Install user scoped neovim python provider dependencies
-RUN pip install --user pynvim
-RUN pip3 install --user pynvim
 
 # Install users vim customisations. This requires that the init.vim
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
