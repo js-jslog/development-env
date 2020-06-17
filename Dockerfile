@@ -14,15 +14,10 @@ ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
 
-RUN apk update
-RUN apk upgrade
-RUN apk add --no-cache \
-    bash bash-doc bash-completion \
-    util-linux pciutils usbutils coreutils binutils findutils grep
-
-
 # Install base dependencies
-RUN apk add --no-cache \
+RUN apk update && apk upgrade && apk add --no-cache \
+    bash bash-doc bash-completion \
+    util-linux pciutils usbutils coreutils binutils findutils grep \
     curl \
     git \
     openssl \
@@ -30,29 +25,27 @@ RUN apk add --no-cache \
     tmux \
     openssh \
     mysql-client \
-    python2 \
-    python3 \
-    neovim \
-    py-pip
+    npm
 
 
-# Python2 neovim integration is optional for the neovim plugins.
-# I have only included it for completeness but this and the pip
-# dependencies below can possibly be removed.
-RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
- && python2 get-pip.py
 
-
-RUN apk add --no-cache npm
-RUN npm install -g yarn \
- && npm install -g yo \
+# Install neovim provider dependencies
+RUN apk add --no-cache python2 python3 neovim py-pip \
+ && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
  && npm install -g neovim
+
+RUN npm install -g yarn \
+ && npm install -g yo
 
 
 RUN apk add --no-cache gcc
 RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
 RUN apk add --no-cache python2-dev
 RUN apk add --no-cache python3-dev
+
+# Add Yeoman & TDD generator to be called ad a global npm package
+COPY yeoman-generators /var/yeoman-generators
+RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 # Create developer user under which all development within the container
 # will be performed
@@ -75,10 +68,4 @@ RUN nvim +UpdateRemotePlugins +qall
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-RUN source ~/.bashrc
 
-# Prepare Yeoman Generators folders
-COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
-
-# npm link the Yeoman Generators so that they can be used as though a global module
-RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
