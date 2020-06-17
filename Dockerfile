@@ -99,16 +99,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
 
 # Create developer user under which all development within the container
 # will be performed
-<<<<<<< Updated upstream
-RUN groupadd --gid 1000 developer \
- && useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer \
- && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
-=======
-# Temporarily set to 1004 & 1003 for office use while userns-remap doesn't work in vm
-RUN addgroup -g 1003 developer \
- && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1004 --ingroup sudo --ingroup developer developer
+RUN addgroup -g 1000 developer \
+ && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup sudo --ingroup developer developer
 # && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
->>>>>>> Stashed changes
 USER developer
 
 ## Create developer user under which all development within the container
@@ -120,45 +113,6 @@ USER developer
 #USER developer
 #
 
-<<<<<<< Updated upstream
-# Install npm packages
-# neovim required for neovim Node.js provider
-RUN npm install -g yarn \
- && npm install -g yo \
- && npm install -g neovim
-## #&& npm install -g expo-cli
-
-
-# Install Neovim python provider dependencies
-RUN pip install --user pynvim \
- && pip3 install --user pynvim
-
-# Install users vim customisations. This requires that the init.vim
-# file is copied earlier than the other dotfiles
-COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
-RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-RUN nvim +PlugInstall +qall
-RUN nvim +UpdateRemotePlugins +qall
-
-# Copy global dotfiles
-COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
-COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-RUN source ~/.bashrc
-
-# Prepare Yeoman Generators folders
-COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
-
-# npm link the Yeoman Generators so that they can be used as though a global module
-RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
-RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
-RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
-RUN cd /home/developer/yeoman-generators/generator-express && npm link
-
-ARG SEMVER="6.0.0"
-LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:v$SEMVER"
-LABEL version=v$SEMVER
-=======
 # Install nvm with node and npm
 RUN /bin/bash
 RUN touch /home/developer/.bashrc
