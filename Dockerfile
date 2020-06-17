@@ -7,6 +7,10 @@ LABEL version=v$SEMVER
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
+# Proxy environment variables for use during build.
+# If a proxy is present during the running of the container then
+# ENV variables can be passed in to the `docker run ...` command
+# as described in the `runcommand` label above.
 ARG http_proxy=$http_proxy
 ARG https_proxy=$https_proxy
 ARG HTTP_PROXY=$HTTP_PROXY
@@ -18,14 +22,9 @@ ENV TERM=xterm-256color
 RUN apk update && apk upgrade && apk add --no-cache \
     bash bash-doc bash-completion \
     util-linux pciutils usbutils coreutils binutils findutils grep \
-    curl \
-    git \
-    openssl \
-    wget \
-    tmux \
-    openssh \
+    curl wget openssl openssh \
     mysql-client \
-    npm
+    git tmux npm
 
 RUN npm install -g yarn
 
