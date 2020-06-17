@@ -47,14 +47,14 @@ RUN addgroup -g 1000 developer \
  && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup developer developer
 USER developer
 
-# Add users to home directory
+# Add users dotfiles to home directory
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 
+# Install user scoped neovim python provider dependencies
 RUN pip install --user pynvim
 RUN pip3 install --user pynvim
-
 
 # Install users vim customisations. This requires that the init.vim
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
