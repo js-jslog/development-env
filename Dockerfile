@@ -35,11 +35,11 @@ RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 
 # Install neovim provider dependencies
-RUN apk add --no-cache python2 python3 neovim py-pip g++ python2-dev python3-dev \
+RUN apk add --no-cache neovim g++ \
+    python2 python3 py-pip python2-dev python3-dev \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
+ && pip install pynvim && pip3 install pynvim \
  && npm install -g neovim
-RUN pip install pynvim
-RUN pip3 install pynvim
 
 
 # Create developer user under which all development within the container
