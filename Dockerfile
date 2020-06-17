@@ -97,27 +97,31 @@ RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
 # && python2 get-pip.py
 #
 
+RUN apk add --no-cache npm
+RUN npm install -g yarn \
+ && npm install -g yo \
+ && npm install -g neovim
+
+
+RUN apk add --no-cache gcc
+RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
+RUN apk add --no-cache python2-dev
+RUN apk add --no-cache python3-dev
+
 # Create developer user under which all development within the container
 # will be performed
 RUN addgroup -g 1000 developer \
- && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup sudo --ingroup developer developer
-# && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
+ && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup developer developer
 USER developer
 
-## Create developer user under which all development within the container
-## will be performed
-## Temporarily set to 1004 & 1003 for office use while userns-remap doesn't work in vm
-#RUN groupadd --gid 1003 developer \
-# && useradd --create-home --shell /bin/bash --uid 1004 --gid 1003 developer \
-# && usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
-#USER developer
-#
+RUN pip install --user pynvim
+RUN pip3 install --user pynvim
 
 # Install nvm with node and npm
-RUN /bin/bash
-RUN touch /home/developer/.bashrc
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
-RUN . /home/developer/.nvm/nvm.sh
+#RUN /bin/bash
+#RUN touch /home/developer/.bashrc
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+#RUN . /home/developer/.nvm/nvm.sh
 #RUN nvm install $NODE_VERSION
 #RUN nvm alias default $NODE_VERSION \
 #RUN nvm use default
@@ -137,24 +141,13 @@ RUN . /home/developer/.nvm/nvm.sh
 ## but for some reason it's not ready at this point.
 #ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 #
-## Install npm packages
-## neovim required for neovim Node.js provider
-#RUN npm install -g yarn \
-# && npm install -g yo \
-# && npm install -g neovim
-### #&& npm install -g expo-cli
 #
-#
-## Install Neovim python provider dependencies
-#RUN pip install --user pynvim \
-# && pip3 install --user pynvim
-#
-## Install users vim customisations. This requires that the init.vim
-## file is copied earlier than the other dotfiles
-#COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
-#RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#RUN nvim +PlugInstall +qall
-#RUN nvim +UpdateRemotePlugins +qall
+# Install users vim customisations. This requires that the init.vim
+# file is copied earlier than the other dotfiles
+COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN nvim +PlugInstall +qall
+RUN nvim +UpdateRemotePlugins +qall
 #
 ## Copy global dotfiles
 #COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
