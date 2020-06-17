@@ -1,5 +1,7 @@
 FROM alpine:3.12
 
+LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
+
 ARG http_proxy=$http_proxy
 ARG https_proxy=$https_proxy
 ARG HTTP_PROXY=$HTTP_PROXY
@@ -14,7 +16,6 @@ RUN apk add --no-cache \
     bash bash-doc bash-completion \
     util-linux pciutils usbutils coreutils binutils findutils grep
 
-LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
 # Install base dependencies
 RUN apk add --no-cache \
