@@ -27,7 +27,6 @@ RUN apk add --no-cache \
     mysql-client \
     python2 \
     python3 \
-    sudo \
     neovim \
     py-pip
 
