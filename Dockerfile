@@ -14,9 +14,6 @@ RUN apk add --no-cache \
     bash bash-doc bash-completion \
     util-linux pciutils usbutils coreutils binutils findutils grep
 
-# Replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
 # Set debconf to run non-interactively
@@ -43,27 +40,6 @@ RUN apk add --no-cache \
     neovim \
     py-pip
 
-
-## Install base dependencies
-#RUN apt-get update && apt-get install -y -q --no-install-recommends \
-#        apt-transport-https \
-#        build-essential \
-#        ca-certificates \
-#        curl \
-#        git \
-#        libssl-dev \
-#        wget \
-#        tmux \
-#        software-properties-common \
-#        ssh \
-#        mysql-client \
-#        python \
-#        postgresql postgresql-contrib \
-#        sudo \
-#        neovim \
-#        python3-pip \
-#    && rm -rf /var/lib/apt/lists/*
-#
 ## Install docker ce so that host docker instances can be manipulated from this env
 #RUN apt-get update && apt-get install -y -q --no-install-recommends \
 #    apt-transport-https \
@@ -90,12 +66,6 @@ RUN apk add --no-cache \
 RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
  && python2 get-pip.py
 
-## Python2 neovim integration is optional for the deoplete plugin.
-## I have only included it for completeness but this and the pip
-## dependencies below can possibly be removed.
-#RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py \
-# && python2 get-pip.py
-#
 
 RUN apk add --no-cache npm
 RUN npm install -g yarn \
@@ -117,31 +87,7 @@ USER developer
 RUN pip install --user pynvim
 RUN pip3 install --user pynvim
 
-# Install nvm with node and npm
-#RUN /bin/bash
-#RUN touch /home/developer/.bashrc
-#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
-#RUN . /home/developer/.nvm/nvm.sh
-#RUN nvm install $NODE_VERSION
-#RUN nvm alias default $NODE_VERSION \
-#RUN nvm use default
-#RUN source ~/.bashrc
 
-## Install nvm with node and npm
-#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash \
-# && . /home/developer/.nvm/nvm.sh \
-# && nvm install $NODE_VERSION \
-# && nvm alias default $NODE_VERSION \
-# && nvm use default
-#RUN source ~/.bashrc
-#
-## Have to manually include the node folder on the path to make
-## the following installs possible.
-## It gets set automatically by the time we start the container,
-## but for some reason it's not ready at this point.
-#ENV PATH="/home/developer/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-#
-#
 # Install users vim customisations. This requires that the init.vim
 # file is copied earlier than the other dotfiles
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
