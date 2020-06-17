@@ -16,49 +16,21 @@ RUN apk add --no-cache \
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
-# Set debconf to run non-interactively
-#RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-#
-
 # Install base dependencies
 RUN apk add --no-cache \
-#    apt-transport-https \
-#    build-essential \
-#    ca-certificates \
     curl \
     git \
     openssl \
     wget \
     tmux \
-#    software-properties-common \
     openssh \
     mysql-client \
     python2 \
     python3 \
-#    postgresql postgresql-contrib \
     sudo \
     neovim \
     py-pip
 
-## Install docker ce so that host docker instances can be manipulated from this env
-#RUN apt-get update && apt-get install -y -q --no-install-recommends \
-#    apt-transport-https \
-#    ca-certificates \
-#    curl \
-#    gnupg-agent \
-#    software-properties-common
-#
-#RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-#RUN add-apt-repository \
-#    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-#    $(lsb_release -cs) \
-#    stable"
-#
-#RUN apt-get update && apt-get install -y -q --no-install-recommends \
-#    docker-ce \
-#    docker-ce-cli \
-#    containerd.io
-#
 
 # Python2 neovim integration is optional for the neovim plugins.
 # I have only included it for completeness but this and the pip
@@ -94,22 +66,19 @@ COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
-#
-## Copy global dotfiles
-#COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-#COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
-#COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-#RUN source ~/.bashrc
-#
-## Prepare Yeoman Generators folders
-#COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
-#
-## npm link the Yeoman Generators so that they can be used as though a global module
-#RUN cd /home/developer/yeoman-generators/generator-dotfiles && npm link
-#RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
-#RUN cd /home/developer/yeoman-generators/generator-webpack && npm link
-#RUN cd /home/developer/yeoman-generators/generator-express && npm link
-#
-#ARG SEMVER="6.0.0"
-#LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:v$SEMVER"
-#LABEL version=v$SEMVER
+
+# Copy global dotfiles
+COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
+RUN source ~/.bashrc
+
+# Prepare Yeoman Generators folders
+COPY --chown=developer:developer yeoman-generators /home/developer/yeoman-generators
+
+# npm link the Yeoman Generators so that they can be used as though a global module
+RUN cd /home/developer/yeoman-generators/generator-tdd && npm link
+
+ARG SEMVER="6.0.0"
+LABEL runcommand="docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:v$SEMVER"
+LABEL version=v$SEMVER
