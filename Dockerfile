@@ -27,6 +27,12 @@ RUN apk update && apk upgrade && apk add --no-cache \
     mysql-client \
     npm
 
+RUN npm install -g yarn
+
+# Add Yeoman & TDD generator to be called ad a global npm package
+RUN npm install -g yo
+COPY yeoman-generators /var/yeoman-generators
+RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 
 # Install neovim provider dependencies
@@ -34,17 +40,11 @@ RUN apk add --no-cache python2 python3 neovim py-pip \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
  && npm install -g neovim
 
-RUN npm install -g yarn \
- && npm install -g yo
-
 
 RUN apk add --no-cache make gcc g++ libgcc
 RUN apk add --no-cache python2-dev
 RUN apk add --no-cache python3-dev
 
-# Add Yeoman & TDD generator to be called ad a global npm package
-COPY yeoman-generators /var/yeoman-generators
-RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 # Create developer user under which all development within the container
 # will be performed
@@ -52,19 +52,17 @@ RUN addgroup -g 1000 developer \
  && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup developer developer
 USER developer
 
+# Add users to home directory
+COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
+COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
+COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
+
 RUN pip install --user pynvim
 RUN pip3 install --user pynvim
 
 
 # Install users vim customisations. This requires that the init.vim
-# file is copied earlier than the other dotfiles
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
-
-# Copy global dotfiles
-COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
-COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
-COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
-
