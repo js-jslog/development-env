@@ -47,6 +47,8 @@ RUN apk add --no-cache python3 python3-dev py-pip \
  && pip3 install pynvim \
  && pip3 install msgpack
 
+# Install ripgrep for use by denite
+RUN apk add --no-cache ripgrep
 
 # Create developer user under which all development within the container
 # will be performed
