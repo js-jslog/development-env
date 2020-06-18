@@ -21,6 +21,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 ### Removed
 - MAJOR: `sudo` permissions have been removed from the developer user
+- MAJOR: `vim` no longer mapped to nvim (has no function)
 - MAJOR: A lot of bash functionality, some of which will be gradually reintroduced as required (reason being, bash was installed anew)
 - MAJOR: Ability to manage host docker instance from container
 - MAJOR: Several rarely used utilities like postgresql client which can be reinstated if required
