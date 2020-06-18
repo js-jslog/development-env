@@ -14,6 +14,18 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v6.0.0...HEAD) - yyyy-mm-dd
+### Changed
+- MAJOR: Change base image from ubuntu:focal to alpine:3.12.0 - significant resultant changes to fundamentals like user account setup
+- MAJOR: Change ownership of tdd yeoman generator to root which will impact ability to edit and test inside container
+
+### Removed
+- MAJOR: `sudo` permissions have been removed from the developer user
+- MAJOR: A lot of bash functionality, some of which will be gradually reintroduced as required (reason being, bash was installed anew)
+- MAJOR: Ability to manage host docker instance from container
+- MAJOR: Several rarely used utilities like postgresql client which can be reinstated if required
+- MAJOR: Several rarely used utilities which are background features of Ubuntu which I'm unaware are missing at the moment
+- MAJOR: Several rarely used and (I think flawed) on my personal Yeoman generators
+
 ## [v6.0.0](https://github.com/js-jslog/development-env/releases/tag/v6.0.0) - 2020-06-16
 ### Changed
 - MAJOR: Updated dotfiles submodule with shift from Deopolete and Nvim-Typescript to CoC with extensions. Performance and feature improvement.
