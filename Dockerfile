@@ -40,10 +40,12 @@ RUN apk add --no-cache neovim g++ && npm install -g neovim
 ### Python2
 RUN apk add --no-cache python2 python2-dev \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
- && pip install pynvim
+ && pip install pynvim \
+ && pip install msgpack
 ### python3
 RUN apk add --no-cache python3 python3-dev py-pip \
- && pip3 install pynvim
+ && pip3 install pynvim \
+ && pip3 install msgpack
 
 
 # Create developer user under which all development within the container
