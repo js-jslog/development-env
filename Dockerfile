@@ -61,6 +61,7 @@ COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 
 # Install users vim customisations. This requires that the init.vim
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
+COPY --chown=developer:developer dotfiles/coc.vim /home/developer/.config/nvim/after/plugin/coc.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN nvim +PlugInstall +qall
 RUN nvim +UpdateRemotePlugins +qall
