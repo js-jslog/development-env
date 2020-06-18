@@ -14,6 +14,13 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD) - yyyy-mm-dd
+### Added
+- MINOR: Python msgpack
+
+### Changed
+- MINOR: CoC and Denite vim config split out from main vim config file
+- MAJOR: dotfiles dependency updated with plugin alterations
+
 ## [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0) - 2020-06-18
 ### Changed
 - MAJOR: Change base image from ubuntu:focal to alpine:3.12.0 - significant resultant changes to fundamentals like user account setup
