@@ -14,6 +14,11 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+## [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0) - 2020-06-19
+### Added
+- MINOR: Add expo cli globally to npm
+- MINOR: Add jsx formatting manager as vim plugin in vim config
+
 ## [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0) - 2020-06-19
 ### Added
 - MINOR: Python msgpack
@@ -59,7 +64,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v8.1.0...HEAD)
+- [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0)
 - [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0)
 - [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0)
 - [v6.0.0](https://github.com/js-jslog/development-env/releases/tag/v6.0.0)
