@@ -26,7 +26,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
     mysql-client \
     git tmux npm
 
-RUN npm install -g yarn
+RUN npm install -g yarn expo-cli
 
 # Add Yeoman & TDD generator to be called ad a global npm package
 RUN npm install -g yo
