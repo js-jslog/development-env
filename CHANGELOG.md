@@ -13,7 +13,16 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+## [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0) - 2020-06-19
+### Added
+- MINOR: Python msgpack
+- MINOR: Linux ripgrep package
+
+### Changed
+- MINOR: CoC and Denite vim config split out from main vim config file
+- MAJOR: dotfiles dependency updated with plugin alterations
+
 ## [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0) - 2020-06-18
 ### Changed
 - MAJOR: Change base image from ubuntu:focal to alpine:3.12.0 - significant resultant changes to fundamentals like user account setup
@@ -21,6 +30,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 ### Removed
 - MAJOR: `sudo` permissions have been removed from the developer user
+- MAJOR: `vim` no longer mapped to nvim (has no function)
 - MAJOR: A lot of bash functionality, some of which will be gradually reintroduced as required (reason being, bash was installed anew)
 - MAJOR: Ability to manage host docker instance from container
 - MAJOR: Several rarely used utilities like postgresql client which can be reinstated if required
@@ -49,7 +59,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD)
+- [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0)
 - [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0)
 - [v6.0.0](https://github.com/js-jslog/development-env/releases/tag/v6.0.0)
 - [v5.0.0](https://github.com/js-jslog/development-env/releases/tag/v5.0.0)
