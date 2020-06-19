@@ -16,6 +16,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD) - yyyy-mm-dd
 ### Added
 - MINOR: Python msgpack
+- MINOR: Linux ripgrep package
 
 ### Changed
 - MINOR: CoC and Denite vim config split out from main vim config file
