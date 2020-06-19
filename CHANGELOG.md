@@ -13,7 +13,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+## [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0) - 2020-06-19
 ### Added
 - MINOR: Python msgpack
 - MINOR: Linux ripgrep package
@@ -58,7 +59,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v7.0.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD)
+- [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0)
 - [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0)
 - [v6.0.0](https://github.com/js-jslog/development-env/releases/tag/v6.0.0)
 - [v5.0.0](https://github.com/js-jslog/development-env/releases/tag/v5.0.0)
