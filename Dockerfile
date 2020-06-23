@@ -18,10 +18,13 @@ ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
 
-# Install base dependencies
+# Install 'normal stuff' in order to make alpine more 'friendly'
 RUN apk update && apk upgrade && apk add --no-cache \
     bash bash-doc bash-completion \
-    util-linux pciutils usbutils coreutils binutils findutils grep \
+    util-linux pciutils usbutils coreutils binutils findutils grep
+
+# Install base developer packages
+RUN apk add --no-cache \
     curl wget openssl openssh \
     mysql-client \
     git tmux npm

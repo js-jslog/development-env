@@ -17,6 +17,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Added
 - MINOR: Install neovim docs
 
+### Changed
+- MINOR: Rearrange inital apk installs to separate basic 'normal' stuff from 'developer' stuff
+
 ## [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0) - 2020-06-19
 ### Added
 - MINOR: Add expo cli globally to npm
