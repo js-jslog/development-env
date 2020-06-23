@@ -36,7 +36,7 @@ RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 # Install neovim provider dependencies
 ### Shared
-RUN apk add --no-cache neovim g++ && npm install -g neovim
+RUN apk add --no-cache neovim neovim-doc g++ && npm install -g neovim
 ### Python2
 RUN apk add --no-cache python2 python2-dev \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \

@@ -14,6 +14,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+### Added
+- MINOR: Install neovim docs
+
 ## [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0) - 2020-06-19
 ### Added
 - MINOR: Add expo cli globally to npm
