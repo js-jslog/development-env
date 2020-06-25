@@ -16,6 +16,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
 ### Added
 - MINOR: Install neovim docs
+- MINOR: Add .bashrc with enough functionality to colour prompt and load .bash_aliases
 
 ### Changed
 - MINOR: Rearrange inital apk installs to separate basic 'normal' stuff from 'developer' stuff

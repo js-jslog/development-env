@@ -60,6 +60,7 @@ RUN addgroup -g 1000 developer \
 USER developer
 
 # Add users dotfiles to home directory
+COPY --chown=developer:developer .bashrc /home/developer/.bashrc
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
@@ -73,3 +74,5 @@ COPY --chown=developer:developer dotfiles/denite.vim /home/developer/.config/nvi
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && nvim +PlugInstall +qall \
  && nvim +UpdateRemotePlugins +qall
+
+CMD /bin/bash
