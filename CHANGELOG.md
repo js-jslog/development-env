@@ -13,7 +13,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.2.0...HEAD) - yyyy-mm-dd
+## [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0) - 2020-06-25
 ### Added
 - MINOR: Install neovim docs
 - MINOR: Add .bashrc with enough functionality to colour prompt and load .bash_aliases
@@ -71,7 +72,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v8.1.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v8.2.0...HEAD)
+- [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0)
 - [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0)
 - [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0)
 - [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0)
