@@ -14,6 +14,13 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.2.0...HEAD) - yyyy-mm-dd
+### Added
+- MINOR: Aliased vim for nvim
+
+### Changed
+- MAJOR: Updated .gitconfig to use nvim rather than vim
+- MINOR: Moved some bash aliases from .bashrc to .bash_aliases file in dotfiles submodule
+
 ## [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0) - 2020-06-25
 ### Added
 - MINOR: Install neovim docs
