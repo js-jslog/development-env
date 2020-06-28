@@ -13,7 +13,23 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v8.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v9.0.0...HEAD) - yyyy-mm-dd
+## [v9.0.0](https://github.com/js-jslog/development-env/releases/tag/v9.0.0) - 2020-06-28
+### Added
+- MINOR: Aliased vim for nvim
+
+### Changed
+- MAJOR: Updated .gitconfig to use nvim rather than vim
+- MINOR: Moved some bash aliases from .bashrc to .bash_aliases file in dotfiles submodule
+
+## [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0) - 2020-06-25
+### Added
+- MINOR: Install neovim docs
+- MINOR: Add .bashrc with enough functionality to colour prompt and load .bash_aliases
+
+### Changed
+- MINOR: Rearrange inital apk installs to separate basic 'normal' stuff from 'developer' stuff
+
 ## [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0) - 2020-06-19
 ### Added
 - MINOR: Add expo cli globally to npm
@@ -64,7 +80,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v8.1.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v9.0.0...HEAD)
+- [v9.0.0](https://github.com/js-jslog/development-env/releases/tag/v9.0.0)
+- [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0)
 - [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0)
 - [v8.0.0](https://github.com/js-jslog/development-env/releases/tag/v8.0.0)
 - [v7.0.0](https://github.com/js-jslog/development-env/releases/tag/v7.0.0)

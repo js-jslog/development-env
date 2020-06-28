@@ -1,7 +1,7 @@
 FROM alpine:3.12.0
 
 
-ARG SEMVER="8.1.0"
+ARG SEMVER="9.0.0"
 LABEL runcommand="docker run --rm -ti -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:office_latest"
 LABEL version=v$SEMVER
 
@@ -18,10 +18,13 @@ ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
 
-# Install base dependencies
+# Install 'normal stuff' in order to make alpine more 'friendly'
 RUN apk update && apk upgrade && apk add --no-cache \
     bash bash-doc bash-completion \
-    util-linux pciutils usbutils coreutils binutils findutils grep \
+    util-linux pciutils usbutils coreutils binutils findutils grep
+
+# Install base developer packages
+RUN apk add --no-cache \
     curl wget openssl openssh \
     mysql-client \
     git tmux npm
@@ -36,7 +39,7 @@ RUN cd /var/yeoman-generators/generator-tdd && npm link
 
 # Install neovim provider dependencies
 ### Shared
-RUN apk add --no-cache neovim g++ && npm install -g neovim
+RUN apk add --no-cache neovim neovim-doc g++ && npm install -g neovim
 ### Python2
 RUN apk add --no-cache python2 python2-dev \
  && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
@@ -58,6 +61,7 @@ RUN addgroup -g 1003 developer \
 USER developer
 
 # Add users dotfiles to home directory
+COPY --chown=developer:developer .bashrc /home/developer/.bashrc
 COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
@@ -71,3 +75,5 @@ COPY --chown=developer:developer dotfiles/denite.vim /home/developer/.config/nvi
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && nvim +PlugInstall +qall \
  && nvim +UpdateRemotePlugins +qall
+
+CMD /bin/bash
