@@ -40,8 +40,14 @@ COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 
-ENV APPIMAGE_EXTRACT_AND_RUN=1
 
+# Install nvm with node and npm
+ENV NODE_VERSION=14.16.0
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+RUN /bin/bash -c "source /home/developer/.nvm/nvm.sh && source /home/developer/.bashrc && nvm install $NODE_VERSION && nvm alias default $NODE_VERSION && nvm use default && source /home/developer/.bashrc && npm install -g typescript typescript-language-server"
+
+# Setup neovim
+ENV APPIMAGE_EXTRACT_AND_RUN=1
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && nvim +PlugInstall +qall
