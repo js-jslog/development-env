@@ -1,7 +1,7 @@
-FROM alpine:3.12.0
+FROM ubuntu:20.04
 
 
-ARG SEMVER="9.0.0"
+ARG SEMVER="10.0.0"
 LABEL runcommand="docker run --rm -ti -p 3000:3000 -e http_proxy -e https_proxy -e HTTP_PROXY -e HTTPS_PROXY -e SSH_AUTH_SOCK=\$SSH_AUTH_SOCK -v $(dirname \$SSH_AUTH_SOCK):$(dirname \$SSH_AUTH_SOCK) -v $(pwd):/home/developer/workspace -w /home/developer/workspace jslog/development-env:v$SEMVER"
 LABEL version=v$SEMVER
 
@@ -18,45 +18,20 @@ ARG HTTPS_PROXY=$HTTPS_PROXY
 
 ENV TERM=xterm-256color
 
-# Install 'normal stuff' in order to make alpine more 'friendly'
-RUN apk update && apk upgrade && apk add --no-cache \
-    bash bash-doc bash-completion \
-    util-linux pciutils usbutils coreutils binutils findutils grep
+RUN apt-get -y update
+RUN apt-get -y install curl
+RUN apt-get -y install git
 
-# Install base developer packages
-RUN apk add --no-cache \
-    curl wget openssl openssh \
-    mysql-client \
-    git tmux npm
-
-RUN npm install -g yarn expo-cli
-
-# Add Yeoman & TDD generator to be called ad a global npm package
-RUN npm install -g yo
-COPY yeoman-generators /var/yeoman-generators
-RUN cd /var/yeoman-generators/generator-tdd && npm link
-
-
-# Install neovim provider dependencies
-### Shared
-RUN apk add --no-cache neovim neovim-doc g++ && npm install -g neovim
-### Python2
-RUN apk add --no-cache python2 python2-dev \
- && curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py && python2 get-pip.py \
- && pip install pynvim \
- && pip install msgpack
-### python3
-RUN apk add --no-cache python3 python3-dev py-pip \
- && pip3 install pynvim \
- && pip3 install msgpack
-
-# Install ripgrep for use by denite
-RUN apk add --no-cache ripgrep
+RUN curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+RUN chmod 777 nvim.appimage
 
 # Create developer user under which all development within the container
 # will be performed
-RUN addgroup -g 1000 developer \
- && adduser --home /home/developer --disabled-password --shell /bin/bash --uid 1000 --ingroup developer developer
+RUN groupadd --gid 1000 developer
+RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
+RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
+RUN mv ./nvim.appimage /home/developer/.
+RUN ln -s /home/developer/nvim.appimage /usr/bin/nvim
 USER developer
 
 # Add users dotfiles to home directory
@@ -65,14 +40,10 @@ COPY --chown=developer:developer dotfiles/.gitconfig /home/developer/.gitconfig
 COPY --chown=developer:developer dotfiles/.bash_aliases /home/developer/.bash_aliases
 COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 
-# Install user scoped neovim python provider dependencies
+ENV APPIMAGE_EXTRACT_AND_RUN=1
 
-# Install users vim customisations. This requires that the init.vim
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
-COPY --chown=developer:developer dotfiles/coc.vim /home/developer/.config/nvim/after/plugin/coc.vim
-COPY --chown=developer:developer dotfiles/denite.vim /home/developer/.config/nvim/after/plugin/denite.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && nvim +PlugInstall +qall \
- && nvim +UpdateRemotePlugins +qall
+ && nvim +PlugInstall +qall
 
 CMD /bin/bash
