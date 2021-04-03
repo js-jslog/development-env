@@ -57,6 +57,9 @@ RUN /bin/bash -c "source /home/developer/.nvm/nvm.sh && source /home/developer/.
 ENV APPIMAGE_EXTRACT_AND_RUN=1
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
- && nvim +PlugInstall +qall
+ && nvim --headless +PlugInstall +qall \
+# && nvim --headless +TSUpdate +"TSInstallSync typescript" +qall
+# && nvim --headless +TSUpdate +"TSInstallSync javascript typescript tsx json html bash yaml lua css regex ql query" +qall
+ && nvim --headless +TSUpdate +"TSInstallSync all" +qall
 
 CMD /bin/bash
