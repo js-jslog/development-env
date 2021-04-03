@@ -22,6 +22,7 @@ RUN apt-get -y update
 RUN apt-get -y install curl
 RUN apt-get -y install git
 RUN apt-get -y install bat
+RUN apt-get -y install fd-find
 
 RUN curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 RUN chmod 777 nvim.appimage
@@ -33,7 +34,8 @@ RUN useradd --create-home --shell /bin/bash --uid 1000 --gid 1000 developer
 RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 RUN mv ./nvim.appimage /home/developer/.
 RUN ln -s /home/developer/nvim.appimage /usr/bin/nvim
-RUN ln -s /usr/bin/batcat /usr/bin/bat
+RUN ln -s $(which batcat) /usr/bin/bat
+RUN ln -s $(which fdfind) /usr/bin/fd
 USER developer
 
 # Add users dotfiles to home directory
