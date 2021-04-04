@@ -23,9 +23,7 @@ RUN apt-get -y install curl
 RUN apt-get -y install git
 RUN apt-get -y install bat
 RUN apt-get -y install fd-find
-RUN apt-get -y install g++
 RUN apt-get -y install build-essential
-RUN apt-get -y install libstdc++6
 
 RUN curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 RUN chmod 777 nvim.appimage
