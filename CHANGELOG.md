@@ -13,7 +13,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v9.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v10.0.0...HEAD) - yyyy-mm-dd
+
+## [v10.0.0](https://github.com/js-jslog/development-env/releases/tag/v10.0.0) - 2020-04-05
 ### Changed
 - MAJOR: Update Neovim to 0.5 with replacements for most used functionality with potential techdebt regressions to be addressed with live testing
 
@@ -83,7 +85,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v9.0.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v10.0.0...HEAD)
+- [v10.0.0](https://github.com/js-jslog/development-env/releases/tag/v10.0.0)
 - [v9.0.0](https://github.com/js-jslog/development-env/releases/tag/v9.0.0)
 - [v8.2.0](https://github.com/js-jslog/development-env/releases/tag/v8.2.0)
 - [v8.1.0](https://github.com/js-jslog/development-env/releases/tag/v8.1.0)
