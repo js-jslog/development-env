@@ -49,7 +49,7 @@ COPY --chown=developer:developer dotfiles/.tmux.conf /home/developer/.tmux.conf
 # Install nvm with node and npm
 ENV NODE_VERSION=14.16.0
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-RUN /bin/bash -c "source /home/developer/.nvm/nvm.sh && source /home/developer/.bashrc && nvm install $NODE_VERSION && nvm alias default $NODE_VERSION && nvm use default && source /home/developer/.bashrc && npm install -g typescript typescript-language-server"
+RUN /bin/bash -c "source /home/developer/.nvm/nvm.sh && source /home/developer/.bashrc && nvm install $NODE_VERSION && nvm alias default $NODE_VERSION && nvm use default && source /home/developer/.bashrc && npm install -g typescript typescript-language-server diagnostic-languageserver"
 
 # Setup neovim
 ENV APPIMAGE_EXTRACT_AND_RUN=1
