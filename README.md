@@ -31,6 +31,16 @@ See the instructions in the link above to configure the daemon to run with this 
 ## Motivation
 The purpose of creating a non-root user is not for security reasons. This is why I encourage the mapping of `youruser:0:...`. The purpose is becuase many applications don't run properly under root.
 
+# Fonts
+Aspects of Neovim are configured to expect patched-fonts which include devicons. This image can't provide that for you, but you can simply install them for the terminal you are using to present the containers created from it:
+
+```
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+```
+
+https://www.nerdfonts.com/ in general will be a good resource here. The important thing to remember is that it's the responsiblity of the terminal to know what the fonts are, not the container.
+
 # Yeoman Generators
 Several Yeoman Generators have been published within the image as global npm packages and can be used with the usual `yo ...` syntax. See the projects within `yeoman-generators` for details.
 
