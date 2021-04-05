@@ -14,6 +14,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v9.0.0...HEAD) - yyyy-mm-dd
+### Changed
+- MAJOR: Update Neovim to 0.5 with replacements for most used functionality with potential techdebt regressions to be addressed with live testing
+
 ## [v9.0.0](https://github.com/js-jslog/development-env/releases/tag/v9.0.0) - 2020-06-28
 ### Added
 - MINOR: Aliased vim for nvim
