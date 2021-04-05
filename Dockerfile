@@ -32,7 +32,7 @@ RUN chmod 777 nvim.appimage
 # will be performed
 # Temporarily set to 1004 & 1003 for office use while userns-remap doesn't work in vm
 RUN groupadd --gid 1003 developer
-RUN useradd --create-home --shell /bin/bash --uid 1004 --gid 1000 developer
+RUN useradd --create-home --shell /bin/bash --uid 1004 --gid 1003 developer
 RUN usermod --append --groups sudo developer && echo "developer:sudo" | chpasswd
 RUN mv ./nvim.appimage /home/developer/.
 RUN ln -s /home/developer/nvim.appimage /usr/bin/nvim
