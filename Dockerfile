@@ -54,6 +54,7 @@ RUN /bin/bash -c "source /home/developer/.nvm/nvm.sh && source /home/developer/.
 # Setup neovim
 ENV APPIMAGE_EXTRACT_AND_RUN=1
 COPY --chown=developer:developer dotfiles/init.vim /home/developer/.config/nvim/init.vim
+COPY --chown=developer:developer dotfiles/lua /home/developer/.config/nvim/lua
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
  && nvim --headless +PlugInstall +qall \
 # && nvim --headless +TSUpdate +"TSInstallSync typescript" +qall
