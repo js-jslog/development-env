@@ -41,6 +41,8 @@ cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Co
 
 https://www.nerdfonts.com/ in general will be a good resource here. The important thing to remember is that it's the responsiblity of the terminal to know what the fonts are, not the container.
 
+This one has worked in WSL in windows for me: https://github.com/haasosaurus/nerd-fonts/blob/regen-mono-font-fix/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono%20Windows%20Compatible.ttf
+
 # Yeoman Generators
 Several Yeoman Generators have been published within the image as global npm packages and can be used with the usual `yo ...` syntax. See the projects within `yeoman-generators` for details.
 
