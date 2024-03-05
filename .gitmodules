@@ -17,3 +17,6 @@
 	path = yeoman-generators/generator-dotfiles
 	url = git@github.com:js-jslog/generator-dotfiles.git
 	branch = master
+[submodule "neovim-config"]
+	path = neovim-config
+	url = https://github.com/js-jslog/neovim-config.git
