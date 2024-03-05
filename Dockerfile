@@ -5,10 +5,9 @@ SHELL ["/bin/bash", "-c"]
 
 ARG SEMVER="11.0.0"
 ARG IMAGE_NAME="jslog/development-env"
-LABEL buildcommand="docker build -t $IMAGE_NAME:v$SEMVER"
-LABEL runcommand="docker run -dti -v <NAME_OF_DOCKER_VOLUME>:/app --name <NAME_OF_CONTAINER> $IMAGE_NAME:v$SEMVER"
-LABEL devcommand="docker exec -it <NAME_OF_CONTAINER> /bin/bash"
-LABEL revolumecommand="docker commit <NAME_OF_CONTAINER> <NAME_OF_NEW_IMAGE> && docker run -dti -v <NAME_OF_DOCKER_VOLUME>:/app <NAME_OF_NEW_IMAGE>"
+ARG WORKDIR="/app"
+
+LABEL runcommand="docker run -dti -v <NAME_OF_DOCKER_VOLUME>:$WORKDIR --name <NAME_OF_CONTAINER> $IMAGE_NAME:v$SEMVER"
 LABEL version=v$SEMVER
 
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
@@ -34,6 +33,7 @@ RUN source /root/.nvm/nvm.sh && nvm install $NODE_VERSION
 
 COPY neovim-config/. /root/.config/nvim/
 
-WORKDIR /app
+WORKDIR $WORKDIR
+RUN touch thisisatestfile
 
 CMD /bin/bash
