@@ -40,6 +40,5 @@ RUN /usr/local/bin/git-credential-manager configure
 RUN git config --global credential.credentialStore cache
 
 WORKDIR $WORKDIR
-RUN touch thisisatestfile
 
 CMD /bin/bash
