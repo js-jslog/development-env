@@ -35,11 +35,24 @@ docker exec -it <NAME_OF_CONTAINER> /bin/bash
 
 It is suggested that you maintain a dedicated container for the project you are working on, and the volume which it's attached to.
 
-After initially entering the container you can run `nvim .` and see the plugins installing.
+The benefit of this is that you don't have to worry about switching between volumes which can be a bit cumbersome, and you only have to do the following post-container-creation actions once per container.
 
-When they are complete you will also want to log in to Copilot with `Copilot setup`.
+### Post-container-creation actions
 
-At this point you can keep relying on this container for the project you are working on.
+- Set the relevant git credentials for the project you are working on:
+  - `git config --global user.email "..."`
+  - `git config --global user.name "..."`
+- Setup nvim:
+  - Run `nvim` from the commandline - you will see the plugins installing
+  - Run `Copilot setup` from the nvim terminal & follow the instructions
+- Set up the git credentials manager:
+  - For github.com:
+    - `/usr/local/bin/git-credential-manager github login`
+    - Follow the authentication instructions, using "Device code" (suggested)
+  - For gitlab.com:
+    - Create a personal access token for the given project
+    - The first time you push to the repository, you will be prompted to enter the token
+    - (CANNOT USE USERNAME/PASSWORD WHILE 2FA IS ENABLED)
 
 ## Return to the container
 
