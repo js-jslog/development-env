@@ -1,22 +1,3 @@
-[submodule "dotfiles"]
-	path = dotfiles
-	url = git@github.com:js-jslog/dotfiles.git
-[submodule "yeoman-generators/generator-tdd"]
-	path = yeoman-generators/generator-tdd
-	url = git@github.com:js-jslog/generator-tdd.git
-	branch = master
-[submodule "yeoman-generators/generator-webpack"]
-	path = yeoman-generators/generator-webpack
-	url = git@github.com:js-jslog/generator-webpack.git
-	branch = master
-[submodule "yeoman-generators/generator-express"]
-	path = yeoman-generators/generator-express
-	url = git@github.com:js-jslog/generator-express-app.git
-	branch = master
-[submodule "yeoman-generators/generator-dotfiles"]
-	path = yeoman-generators/generator-dotfiles
-	url = git@github.com:js-jslog/generator-dotfiles.git
-	branch = master
 [submodule "neovim-config"]
 	path = neovim-config
 	url = https://github.com/js-jslog/neovim-config.git
