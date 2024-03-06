@@ -1,19 +1,57 @@
 # development-env
 
-Create a dev container based on neovim.
+A dev container based on Neovim.
 
-The intention is that the container will acquire it's project files from a preexisting docker volume.
+The expectation is that an container app under development will shared it's code through a volume.
 
-The expectation is that during development, the application will be run in a docker container, with the code under development shared through a volume.
+The dev container can then also be mounted to that volume. This then means the dev container can edit the application code, and make use of any dev dependencies which are available in the node_modules folder for example.
 
-The dev container can then also be mounted to that volume, making the dependencies pertinent to the development of that application in particular available. For example via the node_modules folder. This reduces the number of dependencies which need to be included in the dev container itself.
-
-The use case is currently limited to nodejs projects, hense the reference to node_modules above, but I will not prematurely optimise for other usecases at this point.
-
+The use case is currently limited to nodejs projects, hence the reference to node_modules above, but I will not prematurely optimise for other usecases at this point.
 
 # Usage
 
-## Clone
+## For container app development
+
+The primary usage comes from running a container from the image, with the appropriate docker volume specified, then `exec`ing in to the container and running neovim.
+
+Prior to this step you will need to have mounted the application code from the actual container app under development on to a docker volume.
+
+```bash
+docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker exec -it <NAME_OF_CONTAINER> /bin/bash
+# During the first entry to the container you will want to run the Post-container-creation actions described below
+```
+It is suggested that you maintain a dedicated container for the project you are working on, and the volume which it's attached to.
+
+The benefit of this is that you don't have to worry about switching between volumes which can be a bit cumbersome, and you only have to do the Post-container-creation actions once per container.
+
+If the container has been stopped for any reason, you can simply start it again and as long as the original volume is still in place you can carry on where you left off.
+
+```bash
+docker start <NAME_OF_CONTAINER>
+docker exec -it <NAME_OF_CONTAINER> /bin/bash
+```
+
+
+## For development of the development-env project itself
+
+Updating the development environment project itself doesn't require mounting docker volumes since the application code and dev tools are already in the same place.
+
+```bash
+docker run -d --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker exec -it <NAME_OF_CONTAINER> /bin/bash
+# During the first entry to the container you will want to run the Post-container-creation actions described below
+cd /development-env
+# Now make whatever modifications you want to the project, and push.
+# To test the changes you will need to:
+#  - pull the changes on to the project on the host system
+#  - run the usual build process described below
+#  - create a new container with a new name and test what you find inside
+```
+
+## Build process
+
+### Clone
 
 ```bash
 git clone --recursive git@github.com:js-jslog/development-env.git
@@ -21,23 +59,20 @@ git clone --recursive git@github.com:js-jslog/development-env.git
 
 ## Build
 
-```bash
-docker build -t jslog/development-env:v<semver-id>  .
-docker push jslog/development-env:v<semver-id>
-```
-
-## Run
+### For local development and testing
 
 ```bash
-docker inspect jslog/development-env:v<semver-id> | grep runcommand # start the container
-docker exec -it <NAME_OF_CONTAINER> /bin/bash
+docker build -t <ANY-NAME-YOU-WANT> .
 ```
 
-It is suggested that you maintain a dedicated container for the project you are working on, and the volume which it's attached to.
+### For pushing to docker hub
 
-The benefit of this is that you don't have to worry about switching between volumes which can be a bit cumbersome, and you only have to do the following post-container-creation actions once per container.
+```bash
+docker build -t jslog/development-env:v<SEMVER-ID>  .
+docker push jslog/development-env:v<SEMVER-ID>
+```
 
-### Post-container-creation actions
+## Post-container-creation actions
 
 - Set the relevant git credentials for the project you are working on:
   - `git config --global user.email "..."`
@@ -54,15 +89,6 @@ The benefit of this is that you don't have to worry about switching between volu
     - The first time you push to the repository, you will be prompted to enter the token
     - (CANNOT USE USERNAME/PASSWORD WHILE 2FA IS ENABLED)
 
-## Return to the container
-
-If the container has been stopped for any reason, you can simply start it again and as long as the original volume is still in place you can carry on where you left off.
-
-```bash
-docker start <NAME_OF_CONTAINER>
-docker exec -it <NAME_OF_CONTAINER> /bin/bash
-```
-
 ## Altering volumes
 
 If you forget to mount the volume when you create the container, or you are moving on to another project, it's probably just better to create another container (discarding the former if you're completely finished with it).
@@ -72,11 +98,3 @@ However, if you really want to reuse the container and just change the volume, y
 ```bash
 docker commit <NAME_OF_CONTAINER> <NAME_OF_NEW_IMAGE> && docker run -dti -v <NAME_OF_DOCKER_VOLUME>:<WORKDIR_OF_THE_CONTAINER> --name <NAME_OF_NEW_CONTAINER> <NAME_OF_NEW_IMAGE>"
 ```
-
-# Modification of dev container
-
-1. Start a dev container
-2. Exec in
-3. `cd /development-env/`
-4. Make the changes you need to
-5. Back in the host, checkout the branch and run the usual build process
