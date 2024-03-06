@@ -72,3 +72,11 @@ However, if you really want to reuse the container and just change the volume, y
 ```bash
 docker commit <NAME_OF_CONTAINER> <NAME_OF_NEW_IMAGE> && docker run -dti -v <NAME_OF_DOCKER_VOLUME>:<WORKDIR_OF_THE_CONTAINER> --name <NAME_OF_NEW_CONTAINER> <NAME_OF_NEW_IMAGE>"
 ```
+
+# Modification of dev container
+
+1. Start a dev container
+2. Exec in
+3. `cd /development-env/`
+4. Make the changes you need to
+5. Back in the host, checkout the branch and run the usual build process

@@ -39,6 +39,10 @@ RUN dpkg -i /gcm-linux_amd64.2.4.1.deb
 RUN /usr/local/bin/git-credential-manager configure
 RUN git config --global credential.credentialStore cache
 
+# Allow development-env to be updated from within the container
+ARG DEVELOPMENTENVDIR="/development-env"
+COPY . $DEVELOPMENTENVDIR
+
 WORKDIR $WORKDIR
 
 CMD /bin/bash
