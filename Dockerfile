@@ -4,12 +4,8 @@ FROM ubuntu:24.04
 SHELL ["/bin/bash", "-c"]
 
 ARG SEMVER="11.0.0"
-ARG IMAGE_NAME="jslog/development-env"
 ARG WORKDIR="/app"
-
-LABEL runcommand="docker run -dti -v <NAME_OF_DOCKER_VOLUME>:$WORKDIR --name <NAME_OF_CONTAINER> $IMAGE_NAME:v$SEMVER"
 LABEL version=v$SEMVER
-
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
 # Install necessary packages
@@ -38,6 +34,10 @@ RUN curl -LO https://github.com/git-ecosystem/git-credential-manager/releases/do
 RUN dpkg -i /gcm-linux_amd64.2.4.1.deb
 RUN /usr/local/bin/git-credential-manager configure
 RUN git config --global credential.credentialStore cache
+
+# Allow development-env to be updated from within the container
+ARG DEVELOPMENTENVDIR="/development-env"
+COPY . $DEVELOPMENTENVDIR
 
 WORKDIR $WORKDIR
 
