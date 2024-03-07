@@ -22,7 +22,9 @@ Prior to this step you will need to have mounted the application code from the a
 # Follow the instructions
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
+
 ..or..
+
 ```bash
 # Bash
 docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
