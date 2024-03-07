@@ -66,8 +66,8 @@ cd /development-env
 ```bash
 git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git
 # NOTE: the flags in this command are very important
-  - autocrlf=input will ensure that the files intended for linux and windows contexts will have their intended line endings before being run / copied in to the container. We don't want linux files being cloned on to a Windows machine, having their line endings updated and then being copied as is in to the linux Docker image.
-  - recursive will mean that the neovim-config submodule is cloned successfully
+#  - autocrlf=input will ensure that the files intended for linux and windows contexts will have their intended line endings before being run / copied in to the container. We don't want linux files being cloned on to a Windows machine, having their line endings updated and then being copied as is in to the linux Docker image.
+#  - recursive will mean that the neovim-config submodule is cloned successfully
 ```
 
 ## Build
