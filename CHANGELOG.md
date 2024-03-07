@@ -17,6 +17,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Changed
 - MAJOR: Made the README.md solely responsible for the documentation of utility. No more run commands included in the Docker image labels.
 - MINOR: A small change to the tokyonight config of the neovim-config submodule pulled in
+- MINOR: Windows line endings changed to unix. The change to Windows must have happened during v11.0.0 without me noticing or recording.
 
 ## [v11.0.0](https://github.com/js-jslog/development-env/releases/tag/v11.0.0) - 2024-03-06
 ### Added
