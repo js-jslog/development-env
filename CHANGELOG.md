@@ -13,7 +13,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - Security: to invite users to upgrade in case of vulnerabilities.
 
 
-## [Unreleased](https://github.com/js-jslog/development-env/compare/v11.0.0...HEAD) - yyyy-mm-dd
+## [Unreleased](https://github.com/js-jslog/development-env/compare/v12.0.0...HEAD) - yyyy-mm-dd
+
+## [v12.0.0](https://github.com/js-jslog/development-env/releases/tag/v12.0.0) - 2024-03-07
 ### Changed
 - MAJOR: Made the README.md solely responsible for the documentation of utility. No more run commands included in the Docker image labels.
 - MINOR: A small change to the tokyonight config of the neovim-config submodule pulled in
@@ -106,7 +108,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## Github release list
-- [unreleased](https://github.com/js-jslog/development-env/compare/v11.0.0...HEAD)
+- [unreleased](https://github.com/js-jslog/development-env/compare/v12.0.0...HEAD)
+- [v12.0.0](https://github.com/js-jslog/development-env/releases/tag/v12.0.0)
 - [v11.0.0](https://github.com/js-jslog/development-env/releases/tag/v11.0.0)
 - [v10.0.0](https://github.com/js-jslog/development-env/releases/tag/v10.0.0)
 - [v10.0.0](https://github.com/js-jslog/development-env/releases/tag/v10.0.0)
