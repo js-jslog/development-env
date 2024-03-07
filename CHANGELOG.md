@@ -14,6 +14,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v11.0.0...HEAD) - yyyy-mm-dd
+### Changed
+- MAJOR: Made the README.md solely responsible for the documentation of utility. No more run commands included in the Docker image labels.
+- MINOR: A small change to the tokyonight config of the neovim-config submodule pulled in
 
 ## [v11.0.0](https://github.com/js-jslog/development-env/releases/tag/v11.0.0) - 2024-03-06
 ### Added
