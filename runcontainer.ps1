@@ -1,3 +1,6 @@
+# Step 0: Make sure the lastest docker iamge is available
+docker pull jslog/development-env:v11.0.0
+
 # Step 1: List Docker Images with "development-env" tag
 $imageNames = docker images --format "{{.Repository}}:{{.Tag}}" | Where-Object { $_ -like "*development-env*" }
 
