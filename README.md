@@ -16,7 +16,17 @@ The primary usage comes from running a container from the image, with the approp
 
 Prior to this step you will need to have mounted the application code from the actual container app under development on to a docker volume.
 
+```powershell
+# Powershell
+.\runcontainer.ps1
+# Follow the instructions
+# During the first entry to the container you will want to run the Post-container-creation actions described below
+```
+
+..or..
+
 ```bash
+# Bash
 docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
@@ -54,7 +64,10 @@ cd /development-env
 ### Clone
 
 ```bash
-git clone --recursive git@github.com:js-jslog/development-env.git
+git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git
+# NOTE: the flags in this command are very important
+#  - autocrlf=input will ensure that the files intended for linux and windows contexts will have their intended line endings before being run / copied in to the container. We don't want linux files being cloned on to a Windows machine, having their line endings updated and then being copied as is in to the linux Docker image.
+#  - recursive will mean that the neovim-config submodule is cloned successfully
 ```
 
 ## Build
@@ -74,14 +87,16 @@ docker push jslog/development-env:v<SEMVER-ID>
 
 ## Post-container-creation actions
 
-- Set the relevant git credentials for the project you are working on:
-  - `git config --global user.email "..."`
-  - `git config --global user.name "..."`
+- Set the relevant git credentials for the project you are working on. Either:
+  - `/development-env/sinfiej-git-config-setup.sh` (and follow the instructions for github login)
+  - or
+  - `/development-env/js-jslog-git-config-setup.sh`
 - Setup nvim:
   - Run `nvim` from the commandline - you will see the plugins installing
   - Run `Copilot setup` from the nvim terminal & follow the instructions
 - Set up the git credentials manager:
   - For github.com:
+    - NOTE: if you ran the `/development-env/sinfiej-git-config-setup.sh` then this will already have been done for you.
     - `/usr/local/bin/git-credential-manager github login`
     - Follow the authentication instructions, using "Device code" (suggested)
   - For gitlab.com:

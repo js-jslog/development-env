@@ -19,6 +19,11 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 - MINOR: A small change to the tokyonight config of the neovim-config submodule pulled in
 - MINOR: Windows line endings changed to unix. The change to Windows must have happened during v11.0.0 without me noticing or recording.
 
+### Added
+- MINOR: Added git config setup scripts, and updated README.md instructions to direct to their use (user can still choose manual method if these files are not appropriate for them)
+- MINOR: Add a dev container starter script for powershell
+
+
 ## [v11.0.0](https://github.com/js-jslog/development-env/releases/tag/v11.0.0) - 2024-03-06
 ### Added
 - MINOR: Git credentials manager
