@@ -27,7 +27,7 @@ Prior to this step you will need to have mounted the application code from the a
 
 ```bash
 # Bash
-docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -dit -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
@@ -48,7 +48,7 @@ docker exec -it <NAME_OF_CONTAINER> /bin/bash
 Updating the development environment project itself doesn't require mounting docker volumes since the application code and dev tools are already in the same place.
 
 ```bash
-docker run -d --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -dit --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 cd /development-env
