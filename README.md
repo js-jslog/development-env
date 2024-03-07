@@ -16,7 +16,15 @@ The primary usage comes from running a container from the image, with the approp
 
 Prior to this step you will need to have mounted the application code from the actual container app under development on to a docker volume.
 
+```powershell
+# Powershell
+.\runcontainer.ps1
+# Follow the instructions
+# During the first entry to the container you will want to run the Post-container-creation actions described below
+```
+..or..
 ```bash
+# Bash
 docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
