@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "hello from container via socat" | socat - tcp:host.docker.internal:8121
+cat /dev/clipboard | socat - tcp:host.docker.internal:8121

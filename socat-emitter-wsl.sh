@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "hello from wsl via socat" | socat - tcp:localhost:8122
+powershell.exe -c Get-Clipboard | socat - tcp:localhost:8122
