@@ -42,6 +42,21 @@ docker start <NAME_OF_CONTAINER>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 ```
 
+## Clipboard management between windows and container
+
+Setup of the clipboard management between Windows and the container needs to be run every time you start the container.
+
+Since we're still under development at the moment. The following instructions are just testing the preliminary stages of the functionality.
+
+1. Open two WSL terminals. These will be required to listen and emit clipboard messages to the tcp transport.
+2. If you don't already have a development-env project locally then clone one with the instructions below.
+3. `cd development-env && ./socat-listener-wsl.sh # this will start the listener which the container will send clipboard content to`
+4. In your container `cd /development-env/ && ./socat-listener-container.sh # this will star the listener which wsl will send the clipboard content to`
+5. Exec to the container in another terminal and start another wsl
+6. In wsl `cd development-env && ./socat-emitter-wsl.sh`
+7. In the container `cat /dev/clipboard # this should now say "hello from wsl via socat"`
+7. In the container `cd development-env && ./socat-emitter-container.sh`
+8. In Windows right click and paste in to notepad. This should say "hello from container via socat".
 
 ## For development of the development-env project itself
 
