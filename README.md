@@ -48,6 +48,9 @@ Setup of the clipboard management between Windows and the container needs to be 
 
 Since we're still under development at the moment. The following instructions are just testing the preliminary stages of the functionality.
 
+REQUIREMENTS:
+- Have installed socat in wsl
+
 0. Ensure the container is already running with the ports bound - doing so after running the wsl stuff might fail
 1. Open two WSL terminals. These will be required to listen and emit clipboard messages to the tcp transport.
 2. If you don't already have a development-env project locally then clone one with the instructions below.
