@@ -2,4 +2,4 @@
 
 content=$(cat)
 
-echo "$content" > /dev/clipboard
+echo -n "$content" > /dev/clipboard
