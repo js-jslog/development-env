@@ -35,8 +35,6 @@ RUN dpkg -i /gcm-linux_amd64.2.4.1.deb
 RUN /usr/local/bin/git-credential-manager configure
 RUN git config --global credential.credentialStore cache
 
-RUN apt -y install socat # required for the windows shared clipboard functionality
-
 # Allow development-env to be updated from within the container
 ARG DEVELOPMENTENVDIR="/development-env"
 # TODO - it's fine to have the development environment all available for editing
@@ -46,4 +44,7 @@ COPY . $DEVELOPMENTENVDIR
 
 WORKDIR $WORKDIR
 
-CMD /bin/bash
+RUN apt -y install socat # required for the windows shared clipboard functionality
+ARG SOCATLISTENPORT="8122"
+
+CMD socat tcp-listen:$SOCATLISTENPORT,fork,bind=0.0.0.0 EXEC:'/development-env/clip.sh'

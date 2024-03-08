@@ -27,7 +27,7 @@ Prior to this step you will need to have mounted the application code from the a
 
 ```bash
 # Bash
-docker run -dit -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
@@ -53,22 +53,22 @@ If you start the wsl listener at the start of the day, you won't have to touch i
 REQUIREMENTS:
 - Have installed socat in wsl
 
-1. Open two WSL terminals. These will be required to listen and emit clipboard messages to the tcp transport.
+1. Open a WSL terminal. This is where you will start your listener and run your emitter.
 2. If you don't already have a development-env project locally then clone one with the instructions below.
 3. `cd development-env && ./socat-listener-wsl.sh # this will start the listener which the container will send clipboard content to`
-4. In your container `cd /development-env/ && ./socat-listener-container.sh # this will star the listener which wsl will send the clipboard content to`
-5. Exec to the container in another terminal and start another wsl
+4. Run `./runcontainer.ps1` from powershell to start a development container
 6. In wsl `cd development-env && ./socat-emitter-wsl.sh`
-7. In the container `cat /dev/clipboard # this should now say "hello from wsl via socat"`
-7. In the container `cd development-env && ./socat-emitter-container.sh`
-8. In Windows right click and paste in to notepad. This should say "hello from container via socat".
+7. In the container `cat /dev/clipboard # this should now contain the content of the Windows clipboard`
+8. Run `echo -n "hello from the container" > /dev/clipboard`
+9. In the container `cd development-env && ./socat-emitter-container.sh`
+10. In Windows right click and paste in to notepad. This should say "hello from container".
 
 ## For development of the development-env project itself
 
 Updating the development environment project itself doesn't require mounting docker volumes since the application code and dev tools are already in the same place.
 
 ```bash
-docker run -dit --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -d --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 cd /development-env
