@@ -1,0 +1,10 @@
+[Unit]
+Description=Socat service for clipboard forwarding to Docker containers
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'clip.exe'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
