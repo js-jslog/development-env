@@ -50,18 +50,17 @@ Since we're still under development at the moment. The following instructions ar
 
 If you start the wsl listener at the start of the day, you won't have to touch it again. It can be used for all of the dev containers you use, but you won't be able to run 2 dev containers at the same time.
 
-REQUIREMENTS:
-- Have installed socat in wsl
 
-1. Open a WSL terminal. This is where you will start your listener and run your emitter.
-2. If you don't already have a development-env project locally then clone one with the instructions below.
-3. `cd development-env && ./socat-listener-wsl.sh # this will start the listener which the container will send clipboard content to`
-4. Run `./runcontainer.ps1` from powershell to start a development container
-6. In wsl `cd development-env && ./socat-emitter-wsl.sh`
-7. In the container `cat /dev/clipboard # this should now contain the content of the Windows clipboard`
-8. Run `echo -n "hello from the container" > /dev/clipboard`
-9. In the container `cd development-env && ./socat-emitter-container.sh`
-10. In Windows right click and paste in to notepad. This should say "hello from container".
+REQUIREMENTS:
+- Have cloned the latest version of this repo to `~/development-env` in wsl
+- Have the latest version of wsl installed
+  - In powershell, run `wsl --update` to make sure
+- Have previously run `cd development-env && ./setup-wsl-socat-docker-clip-service.sh` from wsl
+
+1. Run `./runcontainer.ps1` from powershell to start a development container
+2. To copy clipboard from container to windows run the following in the container: `cd development-env && ./socat-emitter-container.sh`
+  - If you have nothing at `/dev/clipboard` then you might need to run `echo - n "hello world from container"` first
+3. To copy clipboard from windows to container run the following in wsl: `cd development-env && ./socat-emitter-wsl.sh`
 
 ## For development of the development-env project itself
 
