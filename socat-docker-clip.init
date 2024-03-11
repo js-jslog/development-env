@@ -13,14 +13,14 @@
 
 case "$1" in
     start)
-        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'clip.exe' &
+        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe' &
         ;;
     stop)
         kill $(lsof -t -i:8121)
         ;;
     restart)
         kill $(lsof -t -i:8121)
-        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'clip.exe' &
+        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe' &
         ;;
     *)
         echo "Usage: $0 {start|stop|restart}"
