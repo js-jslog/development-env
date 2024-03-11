@@ -3,7 +3,7 @@ Description=Socat service for clipboard forwarding to Docker containers
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'clip.exe'
+ExecStart=/usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe'
 Restart=always
 
 [Install]
