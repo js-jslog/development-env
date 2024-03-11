@@ -45,6 +45,6 @@ COPY . $DEVELOPMENTENVDIR
 WORKDIR $WORKDIR
 
 RUN apt -y install socat # required for the windows shared clipboard functionality
-ARG SOCATLISTENPORT="8122"
+ENV SOCATLISTENPORT="8122"
 
-CMD socat tcp-listen:$SOCATLISTENPORT,fork,bind=0.0.0.0 EXEC:'/development-env/clip.sh'
+CMD socat tcp-listen:${SOCATLISTENPORT},fork,bind=0.0.0.0 EXEC:'/development-env/clip.sh'
