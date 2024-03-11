@@ -11,16 +11,40 @@
 # Description:       Socat listener for Docker clipboard comms
 ### END INIT INFO
 
+DAEMON=/usr/bin/socat
+SOCAT_ARGS="tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe'"
+PIDFILE=/var/run/socat-docker-clip.pid
+
+start_socat () {
+    start-stop-daemon \
+        --start \
+        --backgrouind \
+        --make-pidfile --pidfile $PIDFILE \
+        --exec $DAEMON -- $SOCAT_ARGS
+}
+
+stop_socat() {
+    kill $(lsof -t -i:8121)
+}
+
+status_socat() {
+    echo "If you see a process under these headers then socat is running.."
+    echo "$(ps -Flww -p $(cat $PIDFILE))"
+}
+
 case "$1" in
     start)
-        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe' &
+        start_socat
         ;;
     stop)
-        kill $(lsof -t -i:8121)
+        stop_socat
         ;;
     restart)
-        kill $(lsof -t -i:8121)
-        /usr/bin/socat tcp-listen:8121,fork,bind=0.0.0.0 EXEC:'/mnt/c/WINDOWS/system32/clip.exe' &
+        stop_socat
+        start_socat
+        ;;
+    status)
+        status_socat
         ;;
     *)
         echo "Usage: $0 {start|stop|restart}"
