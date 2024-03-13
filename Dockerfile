@@ -36,19 +36,19 @@ RUN /usr/local/bin/git-credential-manager configure
 RUN git config --global credential.credentialStore cache
 
 # Allow development-env to be updated from within the container
-ARG DEVELOPMENTENVDIR="/development-env"
+ARG DEVELOPMENTENV_DIR="/development-env"
 ENV DEVCON_RESOURCESDIR="/usr/local/bin/devcon-resources"
-COPY . $DEVELOPMENTENVDIR
+COPY . $DEVELOPMENTENV_DIR
 COPY ./devcon-resources $DEVCON_RESOURCESDIR
 
 WORKDIR $WORKDIR
 
 RUN apt -y install socat # required for the windows shared clipboard functionality
-ENV HOSTCLIPLISTENPORT="8121"
-ENV DEVCONCLIPLISTENPORT="8122"
+ENV HOST_CLIPLISTENPORT="8121"
+ENV DEVCON_CLIPLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
 ENV CLIPBOARDPATH="/dev/clipboard"
 ENV CLIPEMITTERPATH="${DEVCON_RESOURCESDIR}/outbound-clip-emitter.sh"
 ENV CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 
-CMD socat tcp-listen:${DEVCONCLIPLISTENPORT},fork,bind=0.0.0.0 EXEC:"${CLIPHANDLERPATH}"
+CMD socat tcp-listen:${DEVCON_CLIPLISTENPORT},fork,bind=0.0.0.0 EXEC:"${CLIPHANDLERPATH}"
