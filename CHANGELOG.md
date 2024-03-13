@@ -18,6 +18,10 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ## [v12.1.0](https://github.com/js-jslog/development-env/releases/tag/v12.1.0) - 2024-03-07
 ### Fixed
 - MINOR: Fixed the incorrect docker tag in the runcontainer.ps1 script
+- MINOR: Fixed some incorrect guidance on gcm in README.md
+
+### Changed
+- MAJOR: Changed the project folder structure, impacting the commands which need to be run at setup
 
 ### Added
 - MINOR: Clipboard management between host and container

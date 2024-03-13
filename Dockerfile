@@ -37,7 +37,9 @@ RUN git config --global credential.credentialStore cache
 
 # Allow development-env to be updated from within the container
 ARG DEVELOPMENTENVDIR="/development-env"
+ENV DEVCON_RESOURCESDIR="/usr/local/bin/devcon-resources"
 COPY . $DEVELOPMENTENVDIR
+COPY ./devcon-resources $DEVCON_RESOURCESDIR
 
 WORKDIR $WORKDIR
 
@@ -46,7 +48,7 @@ ENV HOSTCLIPLISTENPORT="8121"
 ENV DEVCONCLIPLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
 ENV CLIPBOARDPATH="/dev/clipboard"
-ENV CLIPEMITTERPATH="${DEVELOPMENTENVDIR}/socat-emitter-container.sh"
-ENV CLIPHANDLERPATH="${DEVELOPMENTENVDIR}/clip.sh"
+ENV CLIPEMITTERPATH="${DEVCON_RESOURCESDIR}/outbound-clip-emitter.sh"
+ENV CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 
 CMD socat tcp-listen:${DEVCONCLIPLISTENPORT},fork,bind=0.0.0.0 EXEC:"${CLIPHANDLERPATH}"

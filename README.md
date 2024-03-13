@@ -70,7 +70,7 @@ wsl --update
 
 ```bash
 git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git ~/development-env
-cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
+cd ~/development-env/wsl-resources && ./setup-socat-docker-clip-service.sh
 # If the service doesn't install successfully then make sure that systemd is enabled in your wsl
 ```
 
@@ -79,7 +79,7 @@ cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
 1. Create a file in your user directory called `paste-to-container.ps1` with the following content:
 
 ```powershell
-wsl.exe --exec bash /home/<username>/development-env/socat-emitter-wsl.sh # Replace <username> with your username
+wsl.exe --exec bash /home/<username>/development-env/wsl-resources/wsl-clip-emitter.sh # Replace <username> with your username
 ```
 
 2. Right click on the file and select "Send to" > "Desktop (create shortcut)"
@@ -132,15 +132,14 @@ docker push jslog/development-env:v<SEMVER-ID>
 ## Post-container-creation actions
 
 - Set the relevant git credentials for the project you are working on. Either:
-  - `/development-env/sinfiej-git-config-setup.sh` (and follow the instructions for github login)
+  - `/usr/local/bin/devcon-resources/setup-git-config-sinfiej.sh`
   - or
-  - `/development-env/js-jslog-git-config-setup.sh`
+  - `/usr/local/bin/devcon-resources/setup-git-config-js-jslog.sh`
 - Setup nvim:
   - Run `nvim` from the commandline - you will see the plugins installing
   - Run `Copilot setup` from the nvim terminal & follow the instructions
 - Set up the git credentials manager:
   - For github.com:
-    - NOTE: if you ran the `/development-env/sinfiej-git-config-setup.sh` then this will already have been done for you.
     - `/usr/local/bin/git-credential-manager github login`
     - Follow the authentication instructions, using "Device code" (suggested)
   - For gitlab.com:
