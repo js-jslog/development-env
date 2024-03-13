@@ -1,3 +1,12 @@
 #!/bin/bash
 
-cat /dev/clipboard | socat - tcp:host.docker.internal:8121
+############################################
+# Send the contents of the clipboard to the
+# socat listener running on the host machine.
+#
+# Requires:
+#  - An environment variable CLIPBOARDPATH
+#  defining the clipboard file path
+############################################
+
+cat "$CLIPBOARDPATH" | socat - tcp:host.docker.internal:8121
