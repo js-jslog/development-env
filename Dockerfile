@@ -44,7 +44,7 @@ LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 #  - socat: required for the windows shared clipboard functionality
 RUN apt -y update && \
   apt -y upgrade && \
-  apt -y install curl git build-essential ripgrep rpm socat
+  apt -y install curl git tcc ripgrep rpm socat
 
 # Copy neovim, GCM & nvm artifacts from the build stage
 COPY --from=build /squashfs-root/ /squashfs-root/
