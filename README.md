@@ -132,7 +132,7 @@ docker push jslog/development-env:v<SEMVER-ID>
 ## Post-container-creation actions
 
 - Set the relevant git credentials for the project you are working on. Either:
-  - `/usr/local/bin/devcon-resources/setup-git-config-sinfiej.sh` (and follow the instructions for github login)
+  - `/usr/local/bin/devcon-resources/setup-git-config-sinfiej.sh`
   - or
   - `/usr/local/bin/devcon-resources/setup-git-config-js-jslog.sh`
 - Setup nvim:
@@ -140,7 +140,6 @@ docker push jslog/development-env:v<SEMVER-ID>
   - Run `Copilot setup` from the nvim terminal & follow the instructions
 - Set up the git credentials manager:
   - For github.com:
-    - NOTE: if you ran the `/usr/local/bin/devcon-resources/setup-git-config-sinfiej.sh` then this will already have been done for you.
     - `/usr/local/bin/git-credential-manager github login`
     - Follow the authentication instructions, using "Device code" (suggested)
   - For gitlab.com:
