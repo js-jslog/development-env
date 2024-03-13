@@ -18,7 +18,9 @@ Prior to this step you will need to have mounted the application code from the a
 
 ```powershell
 # Powershell
-.\runcontainer.ps1
+docker pull jslog/development-env:v<SEMVER-ID>
+git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git
+cd development-env && .\runcontainer.ps1
 # Follow the instructions
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
@@ -27,7 +29,7 @@ Prior to this step you will need to have mounted the application code from the a
 
 ```bash
 # Bash
-docker run -d -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -dit -v <NAME-OF-DOCKER-VOLUME>:/app --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
@@ -90,7 +92,7 @@ wsl.exe --exec bash /home/<username>/development-env/socat-emitter-wsl.sh # Repl
 Updating the development environment project itself doesn't require mounting docker volumes since the application code and dev tools are already in the same place.
 
 ```bash
-docker run -d --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
+docker run -dit --name <NAME-OF-CONTAINER> jslog/development-env:v<SEMVER-ID>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 cd /development-env
