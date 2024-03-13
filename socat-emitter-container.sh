@@ -9,4 +9,4 @@
 #  defining the clipboard file path
 ############################################
 
-cat "$CLIPBOARDPATH" | socat - tcp:host.docker.internal:8121
+cat "$CLIPBOARDPATH" | socat - tcp:host.docker.internal:${SOCATLISTENPORT}
