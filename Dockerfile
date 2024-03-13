@@ -37,9 +37,6 @@ RUN git config --global credential.credentialStore cache
 
 # Allow development-env to be updated from within the container
 ARG DEVELOPMENTENVDIR="/development-env"
-# TODO - it's fine to have the development environment all available for editing
-# but we should also have a separate folder for the things that we need to call
-# regularly - separate from the stuff which we don't. Or aliases / symlinks to them.
 COPY . $DEVELOPMENTENVDIR
 
 WORKDIR $WORKDIR
