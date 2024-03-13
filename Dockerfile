@@ -54,11 +54,11 @@ ARG NODE_VERSION=20
 ARG DEVELOPMENTENV_DIR="/development-env"
 ENV DEVCON_RESOURCESDIR="/usr/local/bin/devcon-resources"
 ENV HOST_CLIPLISTENPORT="8121"
-ARG DEVCON_CLIPLISTENPORT="8122"
+ENV DEVCON_CLIPLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
 ENV CLIPBOARDPATH="/dev/clipboard"
 ENV CLIPEMITTERPATH="${DEVCON_RESOURCESDIR}/outbound-clip-emitter.sh"
-ARG CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
+ENV CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 
 # Link up neovim
 RUN ln -s /squashfs-root/AppRun /usr/bin/nvim && \
