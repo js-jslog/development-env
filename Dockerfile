@@ -9,13 +9,15 @@ LABEL version=v$SEMVER
 LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
 
 # Install necessary packages
-RUN apt -y update
-RUN apt -y upgrade
-RUN apt -y install curl # Required for neovim and nvm download
-RUN apt -y install git # Required for the obvious reason
-RUN apt -y install build-essential # C compiler required for neovim LSP
-RUN apt -y install ripgrep # Required for some neovim telescope functions
-RUN apt -y install rpm # libicu package required for GCM (rpm is smallest apt available pacakage I could find which includes libicu)
+#  - curl: Required for neovim and nvm download
+#  - git: Required for the obvious reason
+#  - build-essential: C compiler required for neovim LSP
+#  - ripgrep: Required for some neovim telescope functions
+#  - rpm: libicu package required for GCM (rpm is smallest apt available pacakage I could find which includes libicu)
+#  - socat: required for the windows shared clipboard functionality
+RUN apt -y update && \
+  apt -y upgrade && \
+  apt -y install curl git build-essential ripgrep rpm socat
 
 # Install neovim
 RUN curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
@@ -43,7 +45,6 @@ COPY ./devcon-resources $DEVCON_RESOURCESDIR
 
 WORKDIR $WORKDIR
 
-RUN apt -y install socat # required for the windows shared clipboard functionality
 ENV HOST_CLIPLISTENPORT="8121"
 ENV DEVCON_CLIPLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
