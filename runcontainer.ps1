@@ -36,10 +36,13 @@ if ($selectedOption -eq 'n') {
 $containerName = Read-Host -Prompt "Enter a name for the dev container"
 
 # Step 4: Run the container
+$hostcliplistenport = "8121"
+$devconcliplistenport = "8122"
+$portMapping = "-p $hostcliplistenport:$hostcliplistenport -p $devconcliplistenport:$devconcliplistenport"
 if ($selectedVolume) {
-    $runCommand = "docker run -dit --name $containerName -p 8121:8121 -p 8122:8122 -v '${selectedVolume}:/app' $selectedImage"
+    $runCommand = "docker run -dit --name $containerName $portMapping -v '${selectedVolume}:/app' $selectedImage"
 } else {
-    $runCommand = "docker run -dit --name $containerName -p 8121:8121 -p 8122:8122 $selectedImage"
+    $runCommand = "docker run -dit --name $containerName $portMapping $selectedImage"
 }
 
 Write-Host "The Docker run command: ${runCommand}"

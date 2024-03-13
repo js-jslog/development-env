@@ -44,7 +44,14 @@ docker exec -it <NAME_OF_CONTAINER> /bin/bash
 
 ## Clipboard management between windows and container
 
-Clipboard management is handled automatically for the most part. Some initial setup in WSL is required.
+Clipboard management is handled automatically for the most part. Some initial setup is required.
+
+Ports 8121 & 8122 are required for operation here. If these need to be update then I've tried to make that as simple as possible with Docker environment variables with the following names:
+
+- HOSTCLIPLISTENPORT
+- DEVCONCLIPLISTENPORT
+
+Unfortunately the same isn't so simple for the Powershell and WSL contexts. If you need to change these values then you'll have to search for the port numbers and change them across the whole project.
 
 If you follow these steps then your workflow will be as follows:
 
