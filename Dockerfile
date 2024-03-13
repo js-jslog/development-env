@@ -67,7 +67,6 @@ RUN ln -s /squashfs-root/AppRun /usr/bin/nvim && \
   git config --global credential.credentialStore cache && \
 # Install node & npm using nvm
   source /root/.nvm/nvm.sh && nvm install $NODE_VERSION
-RUN source /root/.nvm/nvm.sh
 
 # Copy neovim config
 COPY neovim-config/. /root/.config/nvim/
