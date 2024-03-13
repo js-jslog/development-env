@@ -53,16 +53,16 @@ COPY --from=build /root/.nvm/ /root/.bashrc /root/.nvm/
 # .bashrc: Required to benefit from the update made by nvm
 COPY --from=build /root/.bashrc /root/.bashrc
 
-# Set environment variables
-ENV NODE_VERSION=20
+# Set build args and environment variables
+ARG NODE_VERSION=20
 ARG DEVELOPMENTENV_DIR="/development-env"
 ENV DEVCON_RESOURCESDIR="/usr/local/bin/devcon-resources"
 ENV HOST_CLIPLISTENPORT="8121"
-ENV DEVCON_CLIPLISTENPORT="8122"
+ARG DEVCON_CLIPLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
 ENV CLIPBOARDPATH="/dev/clipboard"
 ENV CLIPEMITTERPATH="${DEVCON_RESOURCESDIR}/outbound-clip-emitter.sh"
-ENV CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
+ARG CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 
 # Link up neovim
 RUN ln -s /squashfs-root/AppRun /usr/bin/nvim && \
