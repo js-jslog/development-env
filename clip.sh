@@ -10,5 +10,6 @@
 ############################################
 
 content=$(cat)
+content_dos_to_unix_line_endings=$(echo "$content" | sed 's/\r$//')
 
-echo -n "$content" > "$CLIPBOARDPATH"
+echo -n "$content_dos_to_unix_line_endings" > "$CLIPBOARDPATH"
