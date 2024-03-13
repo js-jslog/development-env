@@ -22,6 +22,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 ### Changed
 - MAJOR: Changed the project folder structure, impacting the commands which need to be run at setup
+- MINOR: Change some environment variable names in image - for readability
 
 ### Added
 - MINOR: Clipboard management between host and container
