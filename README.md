@@ -70,7 +70,7 @@ wsl --update
 
 ```bash
 git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git ~/development-env
-cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
+cd ~/development-env/wsl-resources && ./setup-socat-docker-clip-service.sh
 # If the service doesn't install successfully then make sure that systemd is enabled in your wsl
 ```
 
@@ -79,7 +79,7 @@ cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
 1. Create a file in your user directory called `paste-to-container.ps1` with the following content:
 
 ```powershell
-wsl.exe --exec bash /home/<username>/development-env/socat-emitter-wsl.sh # Replace <username> with your username
+wsl.exe --exec bash /home/<username>/development-env/wsl-resources/wsl-clip-emitter.sh # Replace <username> with your username
 ```
 
 2. Right click on the file and select "Send to" > "Desktop (create shortcut)"
