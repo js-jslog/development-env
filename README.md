@@ -18,7 +18,9 @@ Prior to this step you will need to have mounted the application code from the a
 
 ```powershell
 # Powershell
-.\runcontainer.ps1
+docker pull jslog/development-env:v<SEMVER-ID>
+git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git
+cd development-env && .\runcontainer.ps1
 # Follow the instructions
 # During the first entry to the container you will want to run the Post-container-creation actions described below
 ```
@@ -42,6 +44,48 @@ docker start <NAME_OF_CONTAINER>
 docker exec -it <NAME_OF_CONTAINER> /bin/bash
 ```
 
+## Clipboard management between windows and container
+
+Clipboard management is handled automatically for the most part. Some initial setup is required.
+
+Ports 8121 & 8122 are required for operation here. If these need to be update then I've tried to make that as simple as possible with Docker environment variables with the following names:
+
+- HOSTCLIPLISTENPORT
+- DEVCONCLIPLISTENPORT
+
+Unfortunately the same isn't so simple for the Powershell and WSL contexts. If you need to change these values then you'll have to search for the port numbers and change them across the whole project.
+
+If you follow these steps then your workflow will be as follows:
+
+- Copy from neovim to windows: Yank using <space>y, <space>Y etc (ie any yank command with a space before it)
+- Copy from windows to neovim: Copy as usual, then press `Ctrl + Shift + C` as a windows hot key (and wait a moment for a powershell window to open and close)
+
+### In Windows
+
+```powershell
+wsl --update
+```
+
+### In WSL
+
+```bash
+git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git ~/development-env
+cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
+# If the service doesn't install successfully then make sure that systemd is enabled in your wsl
+```
+
+### In Windows again
+
+1. Create a file in your user directory called `paste-to-container.ps1` with the following content:
+
+```powershell
+wsl.exe --exec bash /home/<username>/development-env/socat-emitter-wsl.sh # Replace <username> with your username
+```
+
+2. Right click on the file and select "Send to" > "Desktop (create shortcut)"
+3. Find the shortcut file and right click on it, then select "Properties"
+4. Under the "Shortcut" tab, click in the "Shortcut key" field and press `Ctrl + Shift + C`
+5. Under the "Shortcut" tab, click in the "Target" field and update the file path to be prefixed with `C:\WINDOWS\System32\WindowsPowerShell\v1.0\Powershell.exe -ExecutionPolicy Bypass -File ` (check that the path to Powershell.exe is correct for your system)
 
 ## For development of the development-env project itself
 

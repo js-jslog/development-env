@@ -19,6 +19,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Fixed
 - MINOR: Fixed the incorrect docker tag in the runcontainer.ps1 script
 
+### Added
+- MINOR: Clipboard management between host and container
+
 ## [v12.0.0](https://github.com/js-jslog/development-env/releases/tag/v12.0.0) - 2024-03-07
 ### Changed
 - MAJOR: Made the README.md solely responsible for the documentation of utility. No more run commands included in the Docker image labels.
