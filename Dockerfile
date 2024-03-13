@@ -33,7 +33,7 @@ SHELL ["/bin/bash", "-c"]
 # Install necessary packages
 #  - curl: Required by nvm, apparently
 #  - git: Required for the obvious reason
-#  - build-essential: C compiler required for neovim LSP
+#  - tcc: C compiler required for neovim LSP
 #  - ripgrep: Required for some neovim telescope functions
 #  - rpm: libicu package required for GCM (rpm is smallest apt available pacakage I could find which includes libicu)
 #  - socat: required for the windows shared clipboard functionality
