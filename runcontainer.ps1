@@ -38,7 +38,7 @@ $containerName = Read-Host -Prompt "Enter a name for the dev container"
 # Step 4: Run the container
 $hostcliplistenport = "8121"
 $devconcliplistenport = "8122"
-$portMapping = "-p $hostcliplistenport:$hostcliplistenport -p $devconcliplistenport:$devconcliplistenport"
+$portMapping = "-p ${hostcliplistenport}:${hostcliplistenport} -p ${devconcliplistenport}:${devconcliplistenport}"
 if ($selectedVolume) {
     $runCommand = "docker run -dit --name $containerName $portMapping -v '${selectedVolume}:/app' $selectedImage"
 } else {
