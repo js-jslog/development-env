@@ -62,6 +62,7 @@ wsl --update
 ```bash
 git clone --config core.autocrlf=input --recursive https://github.com/js-jslog/development-env.git ~/development-env
 cd ~/development-env && ./setup-wsl-socat-docker-clip-service.sh
+# If the service doesn't install successfully then make sure that systemd is enabled in your wsl
 ```
 
 ### In Windows again
