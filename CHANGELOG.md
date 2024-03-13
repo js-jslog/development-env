@@ -19,6 +19,9 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Fixed
 - MINOR: Fixed the incorrect docker tag in the runcontainer.ps1 script
 
+### Changed
+- MAJOR: Changed the project folder structure, impacting the commands which need to be run at setup
+
 ### Added
 - MINOR: Clipboard management between host and container
 
