@@ -30,11 +30,6 @@ FROM ubuntu:24.04
 # Necessary to allow `source` to be called later
 SHELL ["/bin/bash", "-c"]
 
-ARG SEMVER="11.0.0"
-ARG WORKDIR="/app"
-LABEL version=v$SEMVER
-LABEL maintainer="Joseph Sinfield <jhs4jbs@hotmail.co.uk>"
-
 # Install necessary packages
 #  - curl: Required by nvm, apparently
 #  - git: Required for the obvious reason
@@ -54,6 +49,7 @@ COPY --from=build /root/.nvm/ /root/.bashrc /root/.nvm/
 COPY --from=build /root/.bashrc /root/.bashrc
 
 # Set build args and environment variables
+ARG WORKDIR="/app"
 ARG NODE_VERSION=20
 ARG DEVELOPMENTENV_DIR="/development-env"
 ENV DEVCON_RESOURCESDIR="/usr/local/bin/devcon-resources"
