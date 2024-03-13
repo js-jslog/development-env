@@ -62,7 +62,7 @@ ARG CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 
 # Link up neovim
 RUN ln -s /squashfs-root/AppRun /usr/bin/nvim && \
-# Link up and configure git-credentials-manager (GCM)
+# Configure git-credentials-manager (GCM)
   /usr/local/bin/git-credential-manager configure && \
   git config --global credential.credentialStore cache && \
 # Install node & npm using nvm
