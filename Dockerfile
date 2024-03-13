@@ -48,5 +48,7 @@ RUN apt -y install socat # required for the windows shared clipboard functionali
 ENV SOCATLISTENPORT="8122"
 ENV ISDEVCONTAINER=true
 ENV CLIPBOARDPATH="/dev/clipboard"
+ENV CLIPEMITTERPATH="${DEVELOPMENTENVDIR}/socat-emitter-wsl.sh"
+ENV CLIPHANDLERPATH="${DEVELOPMENTENVDIR}/clip.sh"
 
-CMD socat tcp-listen:${SOCATLISTENPORT},fork,bind=0.0.0.0 EXEC:'/development-env/clip.sh'
+CMD socat tcp-listen:${SOCATLISTENPORT},fork,bind=0.0.0.0 EXEC:"${CLIPHANDLERPATH}"
