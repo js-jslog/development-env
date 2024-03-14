@@ -1,6 +1,6 @@
 # Step 0: Make sure the lastest docker iamge is available
 Write-Host "docker pull: Ensuring you have the latest image available."
-docker pull jslog/development-env:v12.1.0
+docker pull jslog/development-env:v13.0.0
 Write-Host ""
 
 # Step 1: Check whether there are already any container running on the clipboard ports.
