@@ -1,5 +1,7 @@
 # Step 0: Make sure the lastest docker iamge is available
+Write-Host "docker pull: Ensuring you have the latest image available."
 docker pull jslog/development-env:v12.1.0
+Write-Host ""
 
 # Step 1: Check whether there are already any container running on the clipboard ports.
 # Even if you aren't using the clipboard, this is a fingerprint of our containers and
@@ -26,6 +28,7 @@ if ($containerNamesOnRequiredPorts.Count -gt 0) {
         Exit 0
     }
 }
+Write-Host ""
 
 # Step 2: List Docker Images with "development-env" tag
 $imageNames = docker images --format "{{.Repository}}:{{.Tag}}" | Where-Object { $_ -like "*development-env*" }
@@ -39,6 +42,7 @@ for ($i = 0; $i -lt $imageNames.Count; $i++) {
 # Prompt user for selection
 $selectedOption = Read-Host -Prompt "Select the number corresponding to your chosen image"
 $selectedImage = $imageNames[$selectedOption]
+Write-Host ""
 
 # Step 3: List Local Docker Volumes
 $volumeNames = docker volume ls -f dangling=false --format "{{.Name}}"
@@ -57,6 +61,7 @@ if ($selectedOption -eq 'n') {
 } else {
     $selectedVolume = $volumeNames[$selectedOption]
 }
+Write-Host ""
 
 # Step 4: Generate the container name and determine whether it already exists
 $containerName = "devcon-$selectedVolume"
@@ -88,6 +93,7 @@ if ($containerNameExists -eq $true) {
     Write-Host "The Docker run command: ${runCommand}"
     Invoke-Expression $runCommand
 }
+Write-Host ""
 
 # Step 6: Enter the container
 $timeoutInSeconds = 5
@@ -107,3 +113,4 @@ if ($containerStatus -like "Up*") {
 } else {
     Write-Host "Container $containerName did not start within the specified timeout."
 }
+Write-Host ""
