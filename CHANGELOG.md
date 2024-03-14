@@ -23,6 +23,7 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 ### Changed
 - MAJOR: Changed the project folder structure, impacting the commands which need to be run at setup
 - MAJOR: Changed the c compiler from build-essentials to tcc to save space - expecting no impact, but can't say for sure
+- MAJOR: Improved runcontainer.ps1 to offer fewer options and more functionality
 - MINOR: Changed some environment variable names in image - for readability
 - MINOR: Reduced image size
 
