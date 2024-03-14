@@ -31,7 +31,7 @@ if ($containerNamesOnRequiredPorts.Count -gt 0) {
 Write-Host ""
 
 # Step 2: List Docker Images with "development-env" tag
-$imageNames = docker images --format "{{.Repository}}:{{.Tag}}" | Where-Object { $_ -like "*development-env*" }
+$imageNames = @(docker images --format "{{.Repository}}:{{.Tag}}" | Where-Object { $_ -like "*development-env*" })
 
 # Present the image names with numeric options
 Write-Host "Choose an image from the following list:"
@@ -45,7 +45,7 @@ $selectedImage = $imageNames[$selectedOption]
 Write-Host ""
 
 # Step 3: List Local Docker Volumes
-$volumeNames = docker volume ls -f dangling=false --format "{{.Name}}"
+$volumeNames = @(docker volume ls -f dangling=false --format "{{.Name}}")
 
 # Present the volume names with numeric options
 Write-Host "Choose a volume from the following list (or type 'n' for no volume):"
