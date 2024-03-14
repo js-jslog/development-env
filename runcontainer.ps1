@@ -32,10 +32,16 @@ if ($selectedOption -eq 'n') {
     $selectedVolume = $volumeNames[$selectedOption]
 }
 
-# Step 3: Choose a name for the dev container
-$containerName = Read-Host -Prompt "Enter a name for the dev container"
+# Step 3: Generate the container name and determine whether it already exists
+$containerName = "devcon-$selectedVolume"
+if (docker ps -a -q -f "name=$containerName") {
+    $containerNameExists = $true
+} else {
+    $containerNameExists = $false
+}
 
-# Step 4: Run the container
+# Step 4: Create and run the container if the container name does not exist.
+# Otherwise help the user take the next step.
 $hostcliplistenport = "8121"
 $devconcliplistenport = "8122"
 $portMapping = "-p ${hostcliplistenport}:${hostcliplistenport} -p ${devconcliplistenport}:${devconcliplistenport}"
@@ -45,8 +51,19 @@ if ($selectedVolume) {
     $runCommand = "docker run -dit --name $containerName $portMapping $selectedImage"
 }
 
-Write-Host "The Docker run command: ${runCommand}"
-Invoke-Expression $runCommand
+if ($containerNameExists -eq $true) {
+    Write-Host "-------------------------------------------------------------------------------------------------------------------------"
+    Write-Host "EXITING EARLY:"
+    Write-Host "Container $containerName already exists. Please use that container or delete and recreate."
+    Write-Host "If you can't delete that container then you can modify the name in this command and run manually:"
+    Write-Host "You can still create this container by another name without this helper script if you want to keep the existing container."
+    Write-Host "$runCommand"
+    Write-Host "-------------------------------------------------------------------------------------------------------------------------"
+    Exit 1
+} else {
+    Write-Host "The Docker run command: ${runCommand}"
+    Invoke-Expression $runCommand
+}
 
 # Step 5: Enter the container
 $timeoutInSeconds = 5
