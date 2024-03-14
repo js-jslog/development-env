@@ -71,13 +71,17 @@ if (docker ps -a -q -f "name=$containerName") {
     $containerNameExists = $false
 }
 
-# Step 5: Create and run the container if the container name does not exist.
+# Step 5: Allow additional port mappings & environment variables to be specified
+$additionalPortMappings = Read-Host -Prompt "Define additional port mappings in the form `-p <host>:<container> -p <host>:<container>`. Leave blank to skip"
+$portMapping = "-p ${hostcliplistenport}:${hostcliplistenport} -p ${devconcliplistenport}:${devconcliplistenport} $additionalPortMappings"
+$envVars = Read-Host -Prompt "Define additional environment variables in the form `-e <key>=<value> -e <key>=<value>`. Leave blank to skip"
+
+# Step 6: Create and run the container if the container name does not exist.
 # Otherwise help the user take the next step.
-$portMapping = "-p ${hostcliplistenport}:${hostcliplistenport} -p ${devconcliplistenport}:${devconcliplistenport}"
 if ($selectedVolume) {
-    $runCommand = "docker run -dit --name $containerName $portMapping -v '${selectedVolume}:/app' $selectedImage"
+    $runCommand = "docker run -dit --name $containerName $portMapping $envVars -v '${selectedVolume}:/app' $selectedImage"
 } else {
-    $runCommand = "docker run -dit --name $containerName $portMapping $selectedImage"
+    $runCommand = "docker run -dit --name $containerName $portMapping $envVars $selectedImage"
 }
 
 if ($containerNameExists -eq $true) {
@@ -95,7 +99,7 @@ if ($containerNameExists -eq $true) {
 }
 Write-Host ""
 
-# Step 6: Enter the container
+# Step 7: Enter the container
 $timeoutInSeconds = 5
 $startTime = Get-Date
 while ((Get-Date) -lt ($startTime.AddSeconds($timeoutInSeconds))) {
