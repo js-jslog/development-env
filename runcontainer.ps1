@@ -1,7 +1,33 @@
 # Step 0: Make sure the lastest docker iamge is available
 docker pull jslog/development-env:v12.1.0
 
-# Step 1: List Docker Images with "development-env" tag
+# Step 1: Check whether there are already any container running on the clipboard ports.
+# Even if you aren't using the clipboard, this is a fingerprint of our containers and
+# the end product of this script will fail if these ports are blocked.
+# Action 1: Offer the user to attach to that container if its already running
+# Action 2: Exit the script and tell them to stop that container before trying to start another
+$hostcliplistenport = "8121"
+$devconcliplistenport = "8122"
+$containerNamesOnRequiredPorts = @(docker ps --filter "expose=$hostcliplistenport" --filter "expose=$devconcliplistenport" --format "{{.Names}}")
+if ($containerNamesOnRequiredPorts.Count -gt 0) {
+    Write-Host "There are already containers running on required ports."
+    Write-Host ("[n] Don't use existing container, and exit")
+    for ($i = 0; $i -lt $containerNamesOnRequiredPorts.Count; $i++) {
+        Write-Host ("[$i] " + $containerNamesOnRequiredPorts[$i])
+    }
+    $selectedOption = Read-Host -Prompt "Select the container number to attach to or type 'n' to exit"
+    $selectedContainer = $containerNamesOnRequiredPorts[$selectedOption]
+    if ($selectedOption -eq 'n') {
+        Write-Host "Exiting early. Please stop the existing container and try again."
+        Exit 1
+    } else {
+        Write-Host "Attaching to the existing container $selectedContainer"
+        docker exec -it $selectedContainer /bin/bash
+        Exit 0
+    }
+}
+
+# Step 2: List Docker Images with "development-env" tag
 $imageNames = docker images --format "{{.Repository}}:{{.Tag}}" | Where-Object { $_ -like "*development-env*" }
 
 # Present the image names with numeric options
@@ -14,7 +40,7 @@ for ($i = 0; $i -lt $imageNames.Count; $i++) {
 $selectedOption = Read-Host -Prompt "Select the number corresponding to your chosen image"
 $selectedImage = $imageNames[$selectedOption]
 
-# Step 2: List Local Docker Volumes
+# Step 3: List Local Docker Volumes
 $volumeNames = docker volume ls -f dangling=false --format "{{.Name}}"
 
 # Present the volume names with numeric options
@@ -32,7 +58,7 @@ if ($selectedOption -eq 'n') {
     $selectedVolume = $volumeNames[$selectedOption]
 }
 
-# Step 3: Generate the container name and determine whether it already exists
+# Step 4: Generate the container name and determine whether it already exists
 $containerName = "devcon-$selectedVolume"
 if (docker ps -a -q -f "name=$containerName") {
     $containerNameExists = $true
@@ -40,10 +66,8 @@ if (docker ps -a -q -f "name=$containerName") {
     $containerNameExists = $false
 }
 
-# Step 4: Create and run the container if the container name does not exist.
+# Step 5: Create and run the container if the container name does not exist.
 # Otherwise help the user take the next step.
-$hostcliplistenport = "8121"
-$devconcliplistenport = "8122"
 $portMapping = "-p ${hostcliplistenport}:${hostcliplistenport} -p ${devconcliplistenport}:${devconcliplistenport}"
 if ($selectedVolume) {
     $runCommand = "docker run -dit --name $containerName $portMapping -v '${selectedVolume}:/app' $selectedImage"
@@ -65,7 +89,7 @@ if ($containerNameExists -eq $true) {
     Invoke-Expression $runCommand
 }
 
-# Step 5: Enter the container
+# Step 6: Enter the container
 $timeoutInSeconds = 5
 $startTime = Get-Date
 while ((Get-Date) -lt ($startTime.AddSeconds($timeoutInSeconds))) {
