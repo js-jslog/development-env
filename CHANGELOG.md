@@ -14,6 +14,8 @@ and this project adheres to ~~[Semantic Versioning](https://semver.org/spec/v2.0
 
 
 ## [Unreleased](https://github.com/js-jslog/development-env/compare/v13.0.0...HEAD) - yyyy-mm-dd
+### Changed
+- MAJOR: Storage format for Git Credentials Manager changed from cache to plaintext
 
 ## [v13.0.0](https://github.com/js-jslog/development-env/releases/tag/v13.0.0) - 2024-03-14
 ### Fixed
