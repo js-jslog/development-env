@@ -64,7 +64,7 @@ ENV CLIPHANDLERPATH="${DEVCON_RESOURCESDIR}/inbound-clip-handler.sh"
 RUN ln -s /squashfs-root/AppRun /usr/bin/nvim && \
 # Configure git-credentials-manager (GCM)
   /usr/local/bin/git-credential-manager configure && \
-  git config --global credential.credentialStore cache && \
+  git config --global credential.credentialStore plaintext && \
 # Install node & npm using nvm
   source /root/.nvm/nvm.sh && nvm install $NODE_VERSION
 
